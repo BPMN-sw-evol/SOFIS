@@ -37,7 +37,7 @@
 11. Ejecuta el programa mediante la siguiente instrucción en la terminal:
 
    ![Comando para ejecutar el programa](./comando_ejecucion.png)
-   Ejemplo: <br>python BPM_PC_QUERY.py -k "ABCDEF12" -i "camunda" -d "STACK_QUERY" -u "admin" -p "12345" -f DD-MM-YYYY
+   Ejemplo: <br>python STACK_QUERY.py -k "ABCDEF12" -i "camunda" -s DD-MM-YYYY -d /ruta/que/desees 
 
 12. Si no hay errores, los datos serán guardados descartando aquellas discusiones que tengan votos negativos (menores que cero). El programa realiza una validación de la existencia de una discusión y la omite si esta ya se encuentra en la base de datos. Para verificar los datos ejecute la sentencia SQL en pgAdmin 4:
 

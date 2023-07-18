@@ -40,8 +40,8 @@ pip install requests (for making HTTP requests) pip install psycopg2-binary (onl
    
 10. Execute the program using the following instruction in the terminal:
     
-   Example for STACK_QUERY: <br>   Example for STACK_QUERY_CSV: <br>python STACK_QUERY.py -k "ABCDEF12" -i "camunda" -s DD-MM-YYYY -d /ruta/que/desees  
-   Example for STACK_QUERY_CSV: <br>python STACK_QUERY_CSV.py -k  "ahhBNdmxDJ5zP2dxaJvCHw((" -i "camunda" -s DD-MM-YYYY -d "/ruta/que/desees" 
+   Example for STACK_QUERY: <br>python STACK_QUERY.py -k "ahhBNdmxDJ5zP2dxaJvCHw((" -i "camunda" -d "STACK_QUERY" -u "postgres" -p "12345" -f "12-06-2023"
+   Example for STACK_QUERY_CSV: <br>python STACK_QUERY_CSV.py -k  "ahhBNdmxDJ5zP2dxaJvCHw((" -i "camunda" -s DD-MM-YYYY -d "/ruta/que/desees"  
 
 12. If there are no errors, the data will be saved discarding those discussions that have negative votes (less than zero). The program performs a validation of the existence of a discussion and skips it if it is already in the database. To verify the data, execute the SQL statement in pgAdmin 4:
 

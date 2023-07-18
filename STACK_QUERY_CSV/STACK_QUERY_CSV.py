@@ -57,7 +57,7 @@ with open(filename_with_extension, 'a', newline='', encoding='utf-8') as csvfile
     fecha_superior = datetime.strptime(args.fecha_superior, '%d-%m-%Y')
 
     while True:
-        params["page"] = page
+        params["page"] = page 
         response = requests.get(url, params=params)
         if response.status_code == 200:
             data = response.json()

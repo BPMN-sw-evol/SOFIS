@@ -7,7 +7,7 @@ from datetime import datetime
 # Create the object ArgumentParser
 parser = argparse.ArgumentParser(description='Get and save StackOverflow questions')
 
-# Agregar los argumentos
+# Add the arguments
 parser.add_argument('-k', '--key', required=True, help='StackExchange API KEY')
 parser.add_argument('-i', '--intitle', required=True, help='StackOverflow title to search')
 parser.add_argument('-d', '--database', required=True, help='Database name')

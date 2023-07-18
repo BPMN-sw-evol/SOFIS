@@ -39,11 +39,10 @@ pip install requests (for making HTTP requests) pip install psycopg2-binary (onl
    );<br>
    
 10. Execute the program using the following instruction in the terminal:
-
-   ![Comando para ejecutar el programa](./comando_ejecucion.png)
+    
    Example: <br>python STACK_QUERY.py -k "ABCDEF12" -i "camunda" -s DD-MM-YYYY -d /ruta/que/desees 
 
-11. If there are no errors, the data will be saved discarding those discussions that have negative votes (less than zero). The program performs a validation of the existence of a discussion and skips it if it is already in the database. To verify the data, execute the SQL statement in pgAdmin 4:
+12. If there are no errors, the data will be saved discarding those discussions that have negative votes (less than zero). The program performs a validation of the existence of a discussion and skips it if it is already in the database. To verify the data, execute the SQL statement in pgAdmin 4:
 
 SELECT * FROM DB_name WHERE title ILIKE '%search_name%';
 

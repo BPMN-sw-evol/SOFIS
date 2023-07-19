@@ -4,13 +4,13 @@ This program fetches discussions from StackOverflow on a given topic using the S
 
 ## Índice
 
-1. [Description](##Description)
-2. [API](##API)
-3. [Prerequisites](#Prerequisites)
-4. [Usage](#Usage)
-5. [Development Summary](#Development_Summary)
-6. [API Usage Limitations](#API_Usage_Limitations)
-7. [Future Improvements](#Future_Improvements)
+1. [Description](#description)
+2. [API](#api)
+3. [Prerequisites](#prerequisites)
+4. [Usage](#usage)
+5. [Development Summary](#development-summary)
+6. [API Usage Limitations](#api-usage-limitations)
+7. [Future Improvements](#future-improvements)
 
 ## Description
 
@@ -78,7 +78,7 @@ To verify the data, execute the following SQL statement in pgAdmin 4:
 
 SELECT \* FROM BPM_PC_QUERY WHERE title ILIKE '%search_topic%';
 
-## Development_Summary
+## Development Summary
 
 This program utilizes the StackOverflow API to retrieve discussions related to a specified search title. It stores these discussions in a local database using PostgreSQL. The program checks if each discussion already exists in the database and, if not, and it has a score greater than or equal to zero, it inserts it. Additionally, the program provides statistics on the number of questions found, inserted, skipped due to negative votes, and skipped due to already existing in the database.
 
@@ -97,7 +97,7 @@ The database stores the following attributes for each discussion:
 
 The development focuses on searching for discussions within StackOverflow whose titles contain the specific platform requested as a parameter. This approach ensures that the obtained data is more contextually relevant to the target platform.
 
-## API_Usage_Limitations
+## API Usage Limitations
 
 The StackOverflow API has the following limitations:
 
@@ -106,7 +106,7 @@ The StackOverflow API has the following limitations:
 3. If the daily limit is exceeded, an HTTP 429 error will be returned.
 4. The daily request limit is renewed from the next midnight.
 
-## Future_Improvements
+## Future Improvements
 
 1. mplement a cloud-based database for improved scalability and accessibility.
 2. Add functionality to update records individually or specific records based on user requirements.

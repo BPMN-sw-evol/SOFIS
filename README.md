@@ -1,26 +1,30 @@
-# INFORMACIÓN DEL PROGRAMA
-***Nombre:*** STACK_QUERY<br>
-***Descripción:*** programa que obtiene discusiones de StackOverflow sobre cualquier tema realizando unas validaciones puntuales de acuerdo a los requerimientos.<br>
-***Desarrollado por:*** DANNO_NZ<br>
+# PROGRAM INFORMATION
+***Name:*** STACK_QUERY<br>
+***Description:*** Programa that fetches discussions from StackOverflow on a given topic using an API and stores the results in a PostgreSQL database called STACK_QUERY or in local CSV files.<br>
 ***API:*** https://stackapps.com/apps/oauth/view/26090
 
-# Para ejecutar el programa se necesita:
+***IMPORTANT:*** the program has two versions: the **FIRST** one called STACK_QUERY_CSV contains a python code that when executed generates the CSV file with the obtained results and the **SECOND** one, called STACK_QUERY_DB uses a PostgreSQL database to store the obtained results.   
+**Version A**: Se obtiene información sobre las preguntas más votadas por un usuario
 
-1. Realizar el registro en https://stackapps.com/users/login (si ya tiene la API omita este paso).
-2. Registrar la aplicación para obtener las credenciales que permiten usar la API de StackOverflow https://stackapps.com/apps/oauth/register (si ya tiene la API omita este paso)
-3. Obtener un cliente ID y una clave secreta de autenticación OAuth en Stack Overflow (si ya tiene la API omita este paso)
-3. Instalar un editor de código, recomendado Visual Studio Code (VSCODE): https://code.visualstudio.com/download
-4. Instalar el manejador de versiones GIT https://git-scm.com/downloads 
-5. Clonar el repositorio con el comando: git clone https://github.com/danilonunezgil/BPM_PC_S.git
-6. Instalar Python en cualquier versión https://www.python.org/downloads/ o instalar la extensión a VSCODE
-7. Instalar los siguientes módulos:
+# Getting the API KEY:
+In both cases you need to get the API key if you need to make many requests.
 
-   pip install requests (para hacer solicitudes HTTP)<br>
-   pip install psycopg2-binary (para conectarse y realizar operaciones con PostgreSQL)
-   
-8. Instalar PostgreSQL https://www.postgresql.org/download/windows/ (versión estable o última versión)
-9. Con la ayuda de pgAdmin 4, crear una base de datos llamada BPM_PC_QUERY 
-10. En esa misma BD, mediante el uso del script llamado BPM_PC_Query.sql crear la siguiente tabla:
+1. Register at https://stackapps.com/users/login.
+2. Register the application to obtain the credentials to use the StackOverflow API https://stackapps.com/apps/oauth/register. 
+3. Obtain a client ID and a secret key for OAuth authentication in Stack Overflow.
+
+# To run the program you need:
+
+1.	Install a code editor, recommended Visual Studio Code (VSCODE): https://code.visualstudio.com/download
+2.	Install the version control system GIT: https://git-scm.com/downloads
+3.	Clone the repository using the command: git clone https://github.com/danilonunezgil/BPM_PC_S.git
+4.	Install Python, any version: https://www.python.org/downloads/ or install the extension in VSCODE.
+5.	Install the following modules:
+pip install requests (for making HTTP requests) pip install psycopg2-binary (only if you're using the PostgreSQL version)
+6.	If you need to use PostgreSQL, follow these steps, otherwise skip them.
+7.	Install PostgreSQL: https://www.postgresql.org/download/windows/ (stable version or latest version)
+8.	Using pgAdmin 4, create a database called BPM_PC_QUERY.
+9.	In the same database, using the script called BPM_PC_Query.sql, create the following table:
    
    CREATE TABLE BPM_PC_QUERY (<br>
       id_discussion SERIAL PRIMARY KEY,<br>
@@ -34,40 +38,40 @@
       tags VARCHAR(255)<br>
    );<br>
    
-11. Ejecuta el programa mediante la siguiente instrucción en la terminal:
+10. Execute the program using the following instruction in the terminal:
+    
+   ***Example for STACK_QUERY:*** <br><br>python STACK_QUERY.py -k "ahhBNdmxDJ5zP2dxaJvCHw((" -i "camunda" -d "STACK_QUERY" -u "postgres" -p "12345" -f "12-06-2023" <br>
+   ***Example for STACK_QUERY_CSV:*** <br><br>python STACK_QUERY_CSV.py -k  "ahhBNdmxDJ5zP2dxaJvCHw((" -i "camunda" -s "12-06-2023" -d "/ruta/que/desees"  <br>
 
-   ![Comando para ejecutar el programa](./comando_ejecucion.png)
-   Ejemplo: <br>python STACK_QUERY.py -k "ABCDEF12" -i "camunda" -s DD-MM-YYYY -d /ruta/que/desees 
+12. If there are no errors, the data will be saved discarding those discussions that have negative votes (less than zero). The program performs a validation of the existence of a discussion and skips it if it is already in the database. To verify the data, execute the SQL statement in pgAdmin 4:
 
-12. Si no hay errores, los datos serán guardados descartando aquellas discusiones que tengan votos negativos (menores que cero). El programa realiza una validación de la existencia de una discusión y la omite si esta ya se encuentra en la base de datos. Para verificar los datos ejecute la sentencia SQL en pgAdmin 4:
+## Development_Summary
 
-SELECT * FROM DB_name WHERE title ILIKE '%search_name%';
-
-# Resumen del Desarrollo: 
-El presente programa encarga de utilizar una API de StackOverflow para obtener preguntas relacionadas a un título de búsqueda especificado. Luego, almacena estas preguntas en una base de datos local utilizando PostgreSQL. El programa verifica si cada pregunta ya existe en la base de datos y, si no es así y tiene un puntaje mayor o igual a cero, la inserta. Al final, se muestran estadísticas sobre el número de preguntas encontradas, insertadas, omitidas por votos negativos y omitidas por existir previamente en la base de datos.
+# Development Summary: 
+This program is responsible for using the StackOverflow API to retrieve questions related to a specified search title. It then stores these questions in a local database using PostgreSQL. The program checks if each question already exists in the database, and if not, and it has a score greater than or equal to zero, it inserts it. Finally, statistics are displayed regarding the number of questions found, inserted, skipped due to negative votes, and skipped due to already existing in the database.
 
 La base de datos almancena los siguientes atributos de cada discusión:
 
-| Atributo | Description |
+| Attribute | Description |
 | --- | --- |
-| id_discussion | Identificador único de la discusión |
-| title | Título de la discusión |
-| link | Enlace a sitio web StackOverflow de la discusión |
-| score | Puntaje que tiene la discusión |
-| answer_count | Número de respuestas que tiene la discusión |
-| view_count | Número de vistas que tiene la discusión |
-| creation_date | Fecha de creación de la discusión |
-| tags | Etiquetas relacionadas a la discusión |
+| id_discussion | Unique identifier of the discussion |
+| title | Title of the discussion |
+| link | Link to the StackOverflow webside for the discussion |
+| score | Score of the discussion |
+| answer_count | Number of answers for the discussion |
+| view_count | Number of views for the discussion |
+| creation_date | Creation date of the discussion |
+| tags | Tags related to the discussion |
 
-El desarrollo en cuestión se centra en buscar discusiones dentro de StackOverflow cuyos títulos contengan la plataforma específica que se solicitó por parámetro. Esto se debe a que, en ocasiones, los datos proporcionados por la API no están completamente contextualizados en relación con la plataforma objetivo si se realiza la búsqueda de la plataforma específica tanto en el cuerpo de la discusión como en sus respuestas. 
+The development in question focuses on searching for discussions within StackOverflow whose titles contain the specific platform requested as a parameter. This is because, at times, the data provided by the API is not fully contextualized in relation to the target platform if the specific platform is searched for in both the discussion body and its answers.
 
-# Limitaciones del uso de la API:
+# API Usage Limitations:
 https://api.stackexchange.com/docs/throttle<br>
-Máximo 30 peticiones por segundo<br>
-Máximo 10.000 peticiones por día<br>
-En caso de superar la máximas por día, saldrá un error HTTP 429.<br>
-Dado el caso se haya superado el límite diario de peticiones al servidor se renovarán las 10.000 peticiones a partir de la media noche siguiente.
+Maximum 30 requests per second<br>
+Maximum 10,000 requests per day<br>
+If the daily limit is exceeded, an HTTP 429 error will be returned.<br>
+If the daily request limit to the server is exceeded, the 10,000 requests will be renewed from the next midnight.
 
-# Mejoras futuras:
-Implementar una base de datos en la nube.<br>
-Actualización registro a registro o registro puntual.<br>
+# Future Improvements:
+Implement a cloud-based database.<br>
+Update record by record or specific record.

@@ -4,21 +4,21 @@ import time
 import psycopg2
 from datetime import datetime
 
-# Crear el objeto ArgumentParser
-parser = argparse.ArgumentParser(description='Obtener y almacenar preguntas de StackOverflow')
+# Create the object ArgumentParser
+parser = argparse.ArgumentParser(description='Get and save StackOverflow questions')
 
-# Agregar los argumentos
-parser.add_argument('-k', '--key', required=True, help='Clave de la API de StackExchange')
-parser.add_argument('-i', '--intitle', required=True, help='Título de búsqueda en StackOverflow')
-parser.add_argument('-d', '--database', required=True, help='Nombre de la base de datos')
-parser.add_argument('-u', '--user', required=True, help='Usuario de la base de datos')
-parser.add_argument('-p', '--password', required=True, help='Contraseña de la base de datos')
-parser.add_argument('-f', '--fecha-superior', required=True, help='Fecha superior para filtrar las discusiones')
+# Add the arguments
+parser.add_argument('-k', '--key', required=True, help='StackExchange API KEY')
+parser.add_argument('-i', '--intitle', required=True, help='StackOverflow title to search')
+parser.add_argument('-d', '--database', required=True, help='Database name')
+parser.add_argument('-u', '--user', required=True, help='Database username')
+parser.add_argument('-p', '--password', required=True, help='Database user password')
+parser.add_argument('-f', '--upper-date', required=True, help='Upper date to filter discussions')
 
-# Parsear los argumentos de la línea de comandos
+# Parse the command line arguments
 args = parser.parse_args()
 
-# Define los parámetros de conexión a la base de datos
+# Database connection parameters
 conn_params = {
     "host": "localhost",
     "database": args.database,
@@ -26,7 +26,7 @@ conn_params = {
     "password": args.password
 }
 
-# Establece una conexión con la base de datos
+# Establish connection with the database
 conn = psycopg2.connect(**conn_params)
 cursor = conn.cursor()
 
@@ -52,13 +52,13 @@ while True:
             break
         page += 1
         if page % 30 == 0:
-            print("esperando")
-            time.sleep(1)  # Espera 1 segundo después de cada 30 solicitudes
+            print("waiting for...")
+            time.sleep(1)  # Wait for a second after 30 requests
     else:
-        print("Error al realizar la solicitud HTTP:", response.status_code)
+        print("Error when trying HTTP request:", response.status_code)
         break
 
-# Consulta los IDs de discusión existentes en la base de datos
+# Query the existing discussion IDs in the database
 select_query = "SELECT id_discussion FROM STACK_QUERY"
 cursor.execute(select_query)
 existing_ids = set(row[0] for row in cursor.fetchall())
@@ -67,20 +67,20 @@ inserted_count = 0
 neg_votes_omitted_count = 0
 existing_omitted_count = 0
 
-# Obtén la fecha superior del argumento y conviértela a un objeto de datetime
+# Get the argument upper date and convert to a datatime object
 fecha_superior = datetime.strptime(args.fecha_superior, '%d-%m-%Y')
 
 for question in questions:
     id_discussion = question["question_id"]
 
-    # Verifica si el ID de discusión ya existe en la base de datos
+    # Check if discussion ID already exists in the database
     if id_discussion in existing_ids:
         existing_omitted_count += 1
         continue
 
     creation_date = datetime.fromtimestamp(question["creation_date"])
 
-    # Verificar si la fecha de creación está dentro del rango deseado
+    # Check if the creation date is between given range 
     if datetime(2014, 1, 14) <= creation_date <= fecha_superior:
         title = question["title"]
         link = question["link"]
@@ -97,18 +97,18 @@ for question in questions:
         else:
             neg_votes_omitted_count += 1
     else:
-        # La pregunta no está dentro del rango deseado, se omite
+        # The question is not inside given range, it is omitted
         existing_omitted_count += 1
 
-# Confirma los cambios en la base de datos
+# Confirm the changes in the database
 conn.commit()
 
-# Cierra la conexión con la base de datos
+# Close the connection with the database
 cursor.close()
 conn.close()
 
 total_questions = len(questions)
-print("Total discusiones encontradas: ", total_questions)
-print("Total discusiones insertadas en BD: ", inserted_count)
-print("Total discusiones omitidas por votos negativos: ", neg_votes_omitted_count)
-print("Total discusiones omitidas porque ya existían en la base de datos: ", existing_omitted_count)
+print("Total discussions found: ", total_questions)
+print("Total discussions inserted in DB: ", inserted_count)
+print("Total discussions omitted for negatives votes: ", neg_votes_omitted_count)
+print("Total discussions omitted because already exists in DB: ", existing_omitted_count)

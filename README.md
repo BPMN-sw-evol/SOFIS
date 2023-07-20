@@ -108,5 +108,5 @@ The StackOverflow API has the following limitations:
 
 ## Future Improvements
 
-1. mplement a cloud-based database for improved scalability and accessibility.
+1. Implement a cloud-based database for improved scalability and accessibility.
 2. Add functionality to update records individually or specific records based on user requirements.

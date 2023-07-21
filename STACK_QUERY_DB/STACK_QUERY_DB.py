@@ -1,10 +1,9 @@
-import argparse
 import requests
 import time
 import psycopg2
 from datetime import datetime
 import tkinter as tk
-from tkinter import filedialog, messagebox, ttk
+from tkinter import messagebox, ttk
 import threading
 
 class Application(tk.Tk):
@@ -12,25 +11,24 @@ class Application(tk.Tk):
         super().__init__()
         self.title("StackOverflow Search")
 
-        # Deshabilitar la opción de maximizar
+        # Disable the option to maximize the window
         self.resizable(False, False)
 
-        self.api_key_label = tk.Label(self, text="Clave de la API de StackExchange:")
+        self.api_key_label = tk.Label(self, text="StackExchange API Key:")
         self.api_key_entry = tk.Entry(self, width=35)
-        self.search_title_label = tk.Label(self, text="Título de búsqueda en StackOverflow:")
+        self.search_title_label = tk.Label(self, text="StackOverflow Search Title:")
         self.search_title_entry = tk.Entry(self, width=35)
-        self.upper_date_label = tk.Label(self, text="Fecha superior para filtrar las discusiones (DD-MM-YYYY):")
+        self.upper_date_label = tk.Label(self, text="Upper date to filter discussions (DD-MM-YYYY):")
         self.upper_date_entry = tk.Entry(self, width=35)
-        self.database_label = tk.Label(self, text="Nombre de la base de datos:")
+        self.database_label = tk.Label(self, text="Database Name:")
         self.database_entry = tk.Entry(self, width=35)
-        self.user_label = tk.Label(self, text="Usuario de la base de datos:")
+        self.user_label = tk.Label(self, text="Database User:")
         self.user_entry = tk.Entry(self, width=35)
-        self.password_label = tk.Label(self, text="Contraseña de la base de datos:")
+        self.password_label = tk.Label(self, text="Database Password:")
         self.password_entry = tk.Entry(self, show="*", width=35)
-        self.search_button = tk.Button(self, text="Buscar y Guardar", command=self.start_search_and_save)
+        self.search_button = tk.Button(self, text="Search and Save", command=self.start_search_and_save)
         self.progress_bar = ttk.Progressbar(self, length=200, mode='indeterminate')
-        self.result_label = tk.Label(self, text="",width=50, wraplength=300, justify=tk.LEFT)
-
+        self.result_label = tk.Label(self, text="", width=50, wraplength=300, justify=tk.LEFT)
 
         self.api_key_label.grid(row=0, column=0, sticky=tk.W, padx=10, pady=5)
         self.api_key_entry.grid(row=0, column=1, padx=10, pady=5)
@@ -45,36 +43,36 @@ class Application(tk.Tk):
         self.password_label.grid(row=5, column=0, sticky=tk.W, padx=10, pady=5)
         self.password_entry.grid(row=5, column=1, padx=10, pady=5)
         self.search_button.grid(row=6, column=0, columnspan=2, padx=10, pady=10)
-        self.result_label.grid(row=7, column=0, columnspan=2, padx=10,pady=10)
+        self.result_label.grid(row=7, column=0, columnspan=2, padx=10, pady=10)
 
-        # Variable de control para determinar si el proceso de búsqueda y guardado está en marcha
-        self.is_searching = False 
+        # Control variable to determine if the search and save process is in progress
+        self.is_searching = False
 
     def start_search_and_save(self):
         if self.is_searching:
-            messagebox.showinfo("Advertencia", "El proceso de búsqueda y guardado ya está en marcha.")
+            messagebox.showinfo("Warning", "The search and save process is already in progress.")
             return
 
-        # Obtener los valores de los campos de entrada
+        # Get the values from the input fields
         key = self.api_key_entry.get()
         intitle = self.search_title_entry.get()
-        fecha_superior = self.upper_date_entry.get()
+        upper_date = self.upper_date_entry.get()
         database = self.database_entry.get()
         user = self.user_entry.get()
         password = self.password_entry.get()
 
-        # Verificar si hay campos vacíos
-        if not key or not intitle or not fecha_superior or not database or not user or not password:
-            messagebox.showerror("Error", "Por favor, complete todos los campos.")
+        # Check for empty fields
+        if not key or not intitle or not upper_date or not database or not user or not password:
+            messagebox.showerror("Error", "Please fill in all the fields.")
             return
 
-        # Marcar el proceso de búsqueda y guardado como activo
+        # Mark the search and save process as active
         self.is_searching = True
 
-        # Deshabilitar el botón mientras se realiza la búsqueda y el guardado
+        # Disable the button while performing the search and save process
         self.search_button.config(state=tk.DISABLED)
 
-        # Crear conn_params para la conexión a la base de datos
+        # Create conn_params for the database connection
         conn_params = {
             "host": "localhost",
             "database": database,
@@ -82,12 +80,12 @@ class Application(tk.Tk):
             "password": password
         }
 
-        # Iniciar la búsqueda y el guardado en un hilo separado para evitar bloquear la interfaz de usuario
-        t = threading.Thread(target=self.perform_search_and_save, args=(key, intitle, fecha_superior, conn_params))
+        # Start the search and save in a separate thread to avoid blocking the UI
+        t = threading.Thread(target=self.perform_search_and_save, args=(key, intitle, upper_date, conn_params))
         t.start()
 
-    def perform_search_and_save(self, key, intitle, fecha_superior, conn_params):
-        # Crear ProgressBar antes de iniciar el proceso de búsqueda y guardado
+    def perform_search_and_save(self, key, intitle, upper_date, conn_params):
+        # Create ProgressBar before starting the search and save process
         self.progress_bar.grid(row=7, column=0, columnspan=2, padx=10, pady=10)
         self.progress_bar.start()
 
@@ -133,8 +131,8 @@ class Application(tk.Tk):
             neg_votes_omitted_count = 0
             existing_omitted_count = 0
 
-            # Get the argument upper date and convert to a datatime object
-            fecha_superior = datetime.strptime(fecha_superior, '%d-%m-%Y')
+            # Get the argument upper date and convert to a datetime object
+            upper_date = datetime.strptime(upper_date, '%d-%m-%Y')
 
             for question in questions:
                 id_discussion = question["question_id"]
@@ -146,8 +144,8 @@ class Application(tk.Tk):
 
                 creation_date = datetime.fromtimestamp(question["creation_date"])
 
-                # Check if the creation date is between given range
-                if datetime(2014, 1, 14) <= creation_date <= fecha_superior:
+                # Check if the creation date is between the given range
+                if datetime(2014, 1, 14) <= creation_date <= upper_date:
                     title = question["title"]
                     link = question["link"]
                     score = question["score"]
@@ -163,7 +161,7 @@ class Application(tk.Tk):
                     else:
                         neg_votes_omitted_count += 1
                 else:
-                    # The question is not inside given range, it is omitted
+                    # The question is not inside the given range, it is omitted
                     existing_omitted_count += 1
 
             # Confirm the changes in the database
@@ -177,22 +175,22 @@ class Application(tk.Tk):
             result_str = f"Total discussions found: {total_questions}\n" \
                          f"Total discussions inserted in DB: {inserted_count}\n" \
                          f"Total discussions omitted for negatives votes: {neg_votes_omitted_count}\n" \
-                         f"Total discussions omitted because already exists in DB: {existing_omitted_count}\n"
+                         f"Total discussions omitted because already exist in DB: {existing_omitted_count}\n"
 
         except Exception as e:
-            messagebox.showerror("Error", f"Ocurrió un error al procesar la búsqueda y el guardado: {e}")
+            messagebox.showerror("Error", f"An error occurred while processing the search and save: {e}")
         finally:
-            # Marcar el proceso de búsqueda y guardado como inactivo
+            # Mark the search and save process as inactive
             self.is_searching = False
-            
-            # Habilitar el botón después de finalizar la búsqueda y el guardado
+
+            # Enable the button after finishing the search and save process
             self.search_button.config(state=tk.NORMAL)
 
-            # Detener y ocultar el ProgressBar
+            # Stop and hide the ProgressBar
             self.progress_bar.stop()
             self.progress_bar.grid_forget()
             self.result_label.config(text=result_str)
-            messagebox.showinfo("Finalizado", "La búsqueda y el guardado de datos se han completado exitosamente.")
+            messagebox.showinfo("Finished", "The search and save process has been successfully completed.")
 
 if __name__ == "__main__":
     app = Application()

@@ -12,42 +12,42 @@ class Application(tk.Tk):
         super().__init__()
         self.title("StackOverflow Search")
 
-        # Deshabilitar la opción de maximizar
+        # Disable the option to maximize the window
         self.resizable(False, False)
 
-        # Crear elementos de la interfaz
-        api_key_label = tk.Label(self, text="Clave de la API de StackExchange:")
-        self.api_key_entry = tk.Entry(self, width=35)  # Ancho de 40 caracteres
-        search_title_label = tk.Label(self, text="Título de búsqueda en StackOverflow:")
-        self.search_title_entry = tk.Entry(self, width=35)  # Ancho de 40 caracteres
-        fecha_superior_label = tk.Label(self, text="Fecha superior para filtrar las discusiones (DD-MM-YYYY):")
-        self.fecha_superior_entry = tk.Entry(self, width=30)  # Ancho de 20 caracteres
-        search_button = tk.Button(self, text="Buscar y Guardar", command=self.search_and_save)
+        # Create interface elements
+        api_key_label = tk.Label(self, text="StackExchange API Key:")
+        self.api_key_entry = tk.Entry(self, width=35)  # 40-character width
+        search_title_label = tk.Label(self, text="StackOverflow Search Title:")
+        self.search_title_entry = tk.Entry(self, width=35)  # 40-character width
+        upper_date_label = tk.Label(self, text="Upper date to filter discussions (DD-MM-YYYY):")
+        self.upper_date_entry = tk.Entry(self, width=30)  # 20-character width
+        search_button = tk.Button(self, text="Search and Save", command=self.search_and_save)
         self.result_label = tk.Label(self, text="", wraplength=300, justify=tk.LEFT)
 
-        # Ubicar elementos en la ventana
+        # Place elements on the window
         api_key_label.grid(row=0, column=0, sticky=tk.W, padx=10, pady=5)
         self.api_key_entry.grid(row=0, column=1, padx=10, pady=5)
         search_title_label.grid(row=1, column=0, sticky=tk.W, padx=10, pady=5)
         self.search_title_entry.grid(row=1, column=1, padx=10, pady=5)
-        fecha_superior_label.grid(row=2, column=0, sticky=tk.W, padx=10, pady=5)
-        self.fecha_superior_entry.grid(row=2, column=1, padx=10, pady=5)
+        upper_date_label.grid(row=2, column=0, sticky=tk.W, padx=10, pady=5)
+        self.upper_date_entry.grid(row=2, column=1, padx=10, pady=5)
         search_button.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
-        self.result_label.grid(row=4, column=0, columnspan=2, padx=10, pady=10) 
+        self.result_label.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
 
     def perform_search(self):
 
         key = self.api_key_entry.get()
         intitle = self.search_title_entry.get()
-        fecha_superior = self.fecha_superior_entry.get()
+        upper_date = self.upper_date_entry.get()
 
         try:
-            fecha_superior = datetime.strptime(fecha_superior, '%d-%m-%Y')
+            upper_date = datetime.strptime(upper_date, '%d-%m-%Y')
         except ValueError:
-            messagebox.showerror("Error", "La fecha superior debe tener el formato DD-MM-YYYY")
+            messagebox.showerror("Error", "The upper date must be in the format DD-MM-YYYY")
             return
 
-        directory = filedialog.askdirectory(title="Seleccione el directorio para guardar los archivos CSV")
+        directory = filedialog.askdirectory(title="Select the directory to save the CSV files")
 
         if not directory:
             return
@@ -65,17 +65,17 @@ class Application(tk.Tk):
 
         filename_with_extension = os.path.join(directory, f"{intitle}.csv")
 
-        existing_info_count = 0  # Almacena la cantidad de información existente en el archivo
-        messagebox.showinfo("Advertencia", "El proceso de búsqueda y guardado ya está en marcha.")
+        existing_info_count = 0  # Stores the amount of existing information in the CSV file
+        messagebox.showinfo("Warning", "The search and save process is already in progress.")
 
         if os.path.isfile(filename_with_extension):
-            # Cargar los IDs de discusión existentes del archivo CSV
+            # Load existing discussion IDs from the CSV file
             with open(filename_with_extension, 'r', newline='', encoding='utf-8') as csvfile:
                 reader = csv.reader(csvfile)
                 existing_ids = set(row[0] for row in reader)
                 existing_info_count = len(existing_ids)
         else:
-            # El archivo no existe, crearlo y escribir el encabezado
+            # The file does not exist, create it and write the header
             with open(filename_with_extension, 'w', newline='', encoding='utf-8') as csvfile:
                 fieldnames = ['id_discussion', 'title', 'link', 'score',
                               'answer_count', 'view_count', 'creation_date', 'tags']
@@ -104,8 +104,8 @@ class Application(tk.Tk):
                         creation_date = datetime.fromtimestamp(
                             question["creation_date"])
 
-                        # Verificar si la fecha de creación está dentro del rango deseado
-                        if datetime(2014, 1, 14) <= creation_date <= fecha_superior:
+                        # Check if the creation date is within the desired range
+                        if datetime(2014, 1, 14) <= creation_date <= upper_date:
                             if id_discussion not in existing_ids:
                                 title = question["title"]
                                 link = question["link"]
@@ -137,47 +137,46 @@ class Application(tk.Tk):
 
                     page += 1
                     if page % 30 == 0:
-                        print("Esperando")
-                        # Espera 1 segundo después de cada 30 solicitudes
+                        print("Waiting")
+                        # Wait for 1 second after every 30 requests
                         time.sleep(1)
                 else:
-                    print("Error al realizar la solicitud HTTP:",
-                          response.status_code)
+                    print("Error when trying HTTP request:", response.status_code)
                     break
 
             writer.writerows(csv_rows)
 
-        # Almacena la cantidad de información anexada
+        # Store the amount of appended information
         new_info_count = len(csv_rows)
 
-        # Calcula la diferencia entre la información existente y la anexada
+        # Calculate the difference between existing and appended information
         difference = new_info_count - existing_info_count
 
         total_questions = inserted_count + neg_votes_omitted_count
         total_omitted = neg_votes_omitted_count
 
-        # Detener y ocultar el ProgressBar
+        # Stop and hide the ProgressBar
         self.after(100, lambda: self.progress_bar.stop())
         self.after(300, lambda: self.progress_bar.grid_forget())
 
-        result_str = f"Total discusiones encontradas: {total_questions}\n" \
-                     f"Total discusiones insertadas al CSV: {inserted_count}\n" \
-                     f"Total discusiones omitidas por votos negativos de la actual consulta: {neg_votes_omitted_count}\n" \
-                     f"Cantidad de información previa: {existing_info_count}\n" \
-                     f"Cantidad de información nueva insertada: {new_info_count}\n" \
-                     f"Diferencia entre información nueva y previa: {difference}\n"
+        result_str = f"Total discussions found: {total_questions}\n" \
+                     f"Total discussions inserted into CSV: {inserted_count}\n" \
+                     f"Total discussions omitted due to negative votes in the current query: {neg_votes_omitted_count}\n" \
+                     f"Amount of existing information: {existing_info_count}\n" \
+                     f"Amount of new information inserted: {new_info_count}\n" \
+                     f"Difference between new and existing information: {difference}\n"
 
         self.result_label.config(text=result_str)
-        messagebox.showinfo("Finalizado", "La búsqueda y el guardado de datos se han completado exitosamente.")
+        messagebox.showinfo("Finished", "The search and save process has been successfully completed.")
 
     def search_and_save(self):
-        
-        # Crear ProgressBar
+
+        # Create ProgressBar
         self.progress_bar = ttk.Progressbar(self, length=200, mode='indeterminate')
         self.progress_bar.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
         self.progress_bar.start()
 
-        # Iniciar la búsqueda y el guardado en un hilo separado para evitar bloquear la interfaz de usuario
+        # Start the search and save process in a separate thread to avoid blocking the user interface
         t = threading.Thread(target=self.perform_search)
         t.start()
 

@@ -33,7 +33,7 @@ REM Method to show the command help
 :show_help
 echo. 
 echo Description: This program runs on the console, was developed in Python and uses a StackExchange API
-echo to retrieve stackoverflow problems based on user-supplied search criteria. It then stores the results
+echo to retrieve stackoverflow problems based on user-supplied search criteria, as of 01/14/2014. It then stores the results
 echo in a PostgreSQL database, thanks to a Windows batch file (executable) that requests the necessary 
 echo arguments to run the program.
 echo.

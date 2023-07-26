@@ -1,8 +1,8 @@
 # STACK_QUERY
 
-This program fetches discussions from StackOverflow on a given topic using the StackOverflow API and stores the results in either a PostgreSQL database or local CSV files.
+This program fetches discussions from StackOverflow on a given topic using the StackOverflow API, **consults issues that have been created as of 01/14/2014**, and stores the results in a PostgreSQL database or in local CSV files.
 
-## Índice
+## Index
 
 1. [Description](#description)
 2. [API](#api)
@@ -14,7 +14,7 @@ This program fetches discussions from StackOverflow on a given topic using the S
 
 ## Description
 
-**STACK_QUERY** is a program that allows you to retrieve discussions from StackOverflow based on a specified search topic. It provides two versions:
+**STACK_QUERY** is a program that allows you to retrieve issues from StackOverflow based on a specified search topic as of 01/14/2014. Two versions are available:
 
 - **STACK_QUERY_CSV**: This version generates a CSV file with the obtained results.
 - **STACK_QUERY_DB**: This version uses a PostgreSQL database to store the obtained results.

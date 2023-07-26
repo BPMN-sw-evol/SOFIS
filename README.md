@@ -72,7 +72,7 @@ To execute the program, use one of the 3 ways the program can be execute:
    - **For STACK_QUERY_CSV:**
       ![comando de ejecucion](STACK_QUERY_CSV/commands_to_execute/command_execute_py_CSV.png)
 
-         python STACK_QUERY_CSV.py -k "YOUR_API_KEY" -i "search_topic" -s "12-06-2023" -d "\desired\path"
+         python STACK_QUERY_CSV.py -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
 
 2. Alternatively, you can use the provided batch file to execute the program. Open the terminal or command prompt and run the following command:
 
@@ -84,7 +84,7 @@ To execute the program, use one of the 3 ways the program can be execute:
    - **For STACK_QUERY_CSV:**
       ![comando de ejecucion](STACK_QUERY_CSV/commands_to_execute/command_execute_bat_CSV.png)
 
-         .\STACK_QUERY_CSV.bat -k "YOUR_API_KEY" -i "search_topic" -s "12-06-2023" -d "\desired\path"
+         .\STACK_QUERY_CSV.bat -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
 
 3. For Windows users, you can directly run the provided executable file. Simply double-click on the "STACK_QUERY_*.exe" file to execute the program:
 

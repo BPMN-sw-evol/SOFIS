@@ -11,7 +11,7 @@ parser = argparse.ArgumentParser(description='Get and store StackOverflow questi
 # Add the arguments
 parser.add_argument('-k', '--key', required=True, help='StackExchange API Key')
 parser.add_argument('-i', '--intitle', required=True, help='StackOverflow Search Title')
-parser.add_argument('-s', '--upper-date', required=True, help='Upper date to filter discussions (DD-MM-YYYY)')
+parser.add_argument('-u', '--upper-date', required=True, help='Upper date to filter discussions (DD-MM-YYYY)')
 parser.add_argument('-d', '--directory', required=True, help='Directory to save CSV files')
 
 # Parse the command line arguments

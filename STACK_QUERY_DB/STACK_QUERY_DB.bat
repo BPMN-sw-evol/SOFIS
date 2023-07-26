@@ -1,51 +1,25 @@
 @echo off
 
 REM Check if the help argument is provided
-if /i "%~1"==="-h" (
-    call :show_help
-    exit /b
-)
+if /i "%~1"=="-h" goto show_help
 
-REM Check if no arguments are provided
-if "%~1"=="" (
-    set /p API_KEY="API Key: "
-    set /p SEARCH_TITLE="Search Title: "
-    set /p DATABASE="Database name: "
-    set /p USER="Database username: "
-    set /p PASSWORD="Database user password: "
-    set /p UPPER_DATE="Upper date (DD-MM-YYYY): "
-)
+REM Check if -r argument is provided to request arguments one by one
+if /i "%~1"=="-r" goto request_arguments
 
-REM Check if all arguments are provided
-if "%API_KEY%"=="" (
-    echo Error: API Key not provided.
+REM Check if all required arguments are provided
+if "%~7"=="" (
+    echo Error: Insufficient arguments. Please provide all required parameters.
+    echo Usage: %~nx0 -k "API Key" -i "Search Title" -d "Database name" -u "Database username" -p "Database user password" -f "Upper date (DD-MM-YYYY)" [-r]
     exit /b 1
 )
 
-if "%SEARCH_TITLE%"=="" (
-    echo Error: Search Title not provided.
-    exit /b 1
-)
-
-if "%DATABASE%"=="" (
-    echo Error: Database name not provided.
-    exit /b 1
-)
-
-if "%USER%"=="" (
-    echo Error: Database username not provided.
-    exit /b 1
-)
-
-if "%PASSWORD%"=="" (
-    echo Error: Database user password not provided.
-    exit /b 1
-)
-
-if "%UPPER_DATE%"=="" (
-    echo Error: Upper date not provided.
-    exit /b 1
-)
+REM Parse the command line arguments
+set "API_KEY=%~1"
+set "SEARCH_TITLE=%~2"
+set "DATABASE=%~3"
+set "USER=%~4"
+set "PASSWORD=%~5"
+set "UPPER_DATE=%~6"
 
 REM Code to execute the script with the provided arguments
 python "STACK_QUERY_DB.py" -k "%API_KEY%" -i "%SEARCH_TITLE%" -d "%DATABASE%" -u "%USER%" -p "%PASSWORD%" -f "%UPPER_DATE%"
@@ -57,7 +31,14 @@ exit /b
 
 REM Method to show the command help
 :show_help
-echo Usage: %~nx0 [OPTIONS]
+echo. 
+echo Description: This program runs on the console, was developed in Python and uses a StackExchange API
+echo to retrieve stackoverflow problems based on user-supplied search criteria. It then stores the results
+echo in a PostgreSQL database, thanks to a Windows batch file (executable) that requests the necessary 
+echo arguments to run the program.
+echo.
+echo Usage: %~nx0 -k "API Key" -i "Search Title" -d "Database name" -u "Database username" -p "Database user password" -f "Upper date (DD-MM-YYYY)" [-r]
+echo.
 echo OPTIONS:
 echo   -k, --key            StackExchange API Key (required)
 echo                         Example: -k "ahhBNdmxDJ5zP2dxaJvCHw(("
@@ -80,3 +61,13 @@ echo.
 echo   -h, --help           Show help
 echo.
 exit /b
+
+:request_arguments
+REM Request arguments one by one
+set /p API_KEY="API Key: "
+set /p SEARCH_TITLE="Search Title: "
+set /p DATABASE="Database name: "
+set /p USER="Database username: "
+set /p PASSWORD="Database user password: "
+set /p UPPER_DATE="Upper date (DD-MM-YYYY): "
+goto :run_script

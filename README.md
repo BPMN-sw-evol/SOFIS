@@ -14,10 +14,10 @@ This program fetches discussions from StackOverflow on a given topic using the S
 
 ## Description
 
-STACK_QUERY is a program that allows you to retrieve discussions from StackOverflow based on a specified search topic. It provides two versions:
+**STACK_QUERY** is a program that allows you to retrieve discussions from StackOverflow based on a specified search topic. It provides two versions:
 
-- *STACK_QUERY_CSV*: This version generates a CSV file with the obtained results.
-- *STACK_QUERY_DB*: This version uses a PostgreSQL database to store the obtained results.
+- **STACK_QUERY_CSV**: This version generates a CSV file with the obtained results.
+- **STACK_QUERY_DB**: This version uses a PostgreSQL database to store the obtained results.
 
 ## API
 
@@ -30,21 +30,21 @@ To use the StackOverflow API and make requests, you will need an API key. Follow
 ## Prerequisites
 Before running the program, ensure that you have the following prerequisites installed:
 
-1. *Code editor*: We recommend using Visual Studio Code (VS Code). You can download it from the [official website](https://code.visualstudio.com/download).
-2. *Version control system*: Install GIT from the [official website](https://git-scm.com/downloads).
-3. *Clone the repository*: Use the following command to clone the repository: `git clone https://github.com/danilonunezgil/BPM_PC_S.git`.
-4. *Python*: Install Python from the [official website](https://www.python.org/downloads/) or install the Python extension in VS Code.
-5. *Required Python modules*:
+1. **Code editor**: if you want to modify the program you must have, we recommend using Visual Studio Code (VS Code). You can download it from the [official website](https://code.visualstudio.com/download).
+2. **Version control system**: Install GIT from the [official website](https://git-scm.com/downloads).
+3. **Clone the repository**: Use the following command to clone the repository: `git clone https://github.com/danilonunezgil/BPM_PC_S.git`.
+4. **Python**: Install Python from the [official website](https://www.python.org/downloads/) or install the Python extension in VS Code.
+5. **Required Python modules**:
    - requests (for making HTTP requests): `pip install requests`
    - psycopg2-binary (only for STACK_QUERY_DB version): `pip install psycopg2-binary`
 
 If you plan to use the PostgreSQL version (STACK_QUERY_DB), follow the steps below:
 
-6. *Install PostgreSQL*: Download and install the stable or latest version from the [official PostgreSQL website](https://www.postgresql.org/download/).
-7. *Using pgAdmin 4* (included with PostgreSQL), create a database called `STACK_QUERY`.
-8. *Create the required table*: In the `STACK_QUERY` database, execute the `BPM_PC_Query.sql` script to create the required table. The script is available in the repository.
+6. **Install PostgreSQL**: Download and install the stable or latest version from the [official PostgreSQL website](https://www.postgresql.org/download/).
+7. **Using pgAdmin 4** (included with PostgreSQL), create a database called `STACK_QUERY`.
+8. **Create the required table**: In the `STACK_QUERY` database, execute the `BPM_PC_Query.sql` script to create the required table. The script is available in the repository.
 
-   sql
+   ````sql
    CREATE TABLE BPM_PC_QUERY (
       id_discussion SERIAL PRIMARY KEY,
       topic VARCHAR(25),
@@ -56,33 +56,68 @@ If you plan to use the PostgreSQL version (STACK_QUERY_DB), follow the steps bel
       creation_date DATE,
       tags VARCHAR(255)
    );
-   
+   ````   
 
 ## Usage
 
-To execute the program, use the following command in the terminal or command prompt:
+To execute the program, use one of the 3 ways the program can be execute:
 
-- *For STACK_QUERY:*
-   ![comando de ejecucion](STACK_QUERY_DB/comando_ejecucion_DB.png)
+1. To execute the Python script, use the following command in the terminal or command prompt:
 
-- *For STACK_QUERY_CSV:*
-   ![comando de ejecucion](STACK_QUERY_CSV/comando_ejecucion_CSV.png)
+   - **For STACK_QUERY_DB:**
+      ![comando de ejecucion](STACK_QUERY_DB/commands_to_execute/command_execute_py_DB.png)
+      
+         python STACK_QUERY_DB.py -k "YOUR_API_KEY" -i "search_topic" -d "STACK_QUERY" -u "postgres" -p "1234" -f "12-06-2023"
+
+   - **For STACK_QUERY_CSV:**
+      ![comando de ejecucion](STACK_QUERY_CSV/commands_to_execute/command_execute_py_CSV.png)
+
+         python STACK_QUERY_CSV.py -k "YOUR_API_KEY" -i "search_topic" -s "12-06-2023" -d "\desired\path"
+
+2. Alternatively, you can use the provided batch file to execute the program. Open the terminal or command prompt and run the following command:
+
+   - **For STACK_QUERY_DB:**
+      ![comando de ejecucion](STACK_QUERY_DB/commands_to_execute/command_execute_bat_DB.png)
+      
+         .\STACK_QUERY_DB.bat -k "YOUR_API_KEY" -i "search_topic" -d "STACK_QUERY" -u "postgres" -p "1234" -f "12-06-2023"
+
+   - **For STACK_QUERY_CSV:**
+      ![comando de ejecucion](STACK_QUERY_CSV/commands_to_execute/command_execute_bat_CSV.png)
+
+         .\STACK_QUERY_CSV.bat -k "YOUR_API_KEY" -i "search_topic" -s "12-06-2023" -d "\desired\path"
+
+3. For Windows users, you can directly run the provided executable file. Simply double-click on the "STACK_QUERY_*.exe" file to execute the program:
+
+   - **For STACK_QUERY_DB:**
+      ![comando de ejecucion](STACK_QUERY_DB/commands_to_execute/command_execute_exe_DB.png)
+      
+         cd .\executable\
+
+         .\STACK_QUERY_DB.exe
+
+   - **For STACK_QUERY_CSV:**
+         ![comando de ejecucion](STACK_QUERY_CSV/commands_to_execute/command_execute_exe_CSV.png)
+
+         cd .\executable\
+
+         .\STACK_QUERY_CSV.exe
 
 
+**Replace the placeholder values with your specific information.**
 
-Replace the placeholder values with your specific information.
-
-If there are no errors, the program will save the data while discarding discussions with negative votes (less than zero). It also performs validation to avoid duplicates in the database.
+If there are no errors, the program will save the data while discarding discussions with negative votes (less than zero). It also performs validation to avoid duplicates in the database or CSV file.
 
 To verify the data, execute the following SQL statement in pgAdmin 4:
 
-SELECT \* FROM BPM_PC_QUERY WHERE title ILIKE '%search_topic%';
+      SELECT \* FROM BPM_PC_QUERY WHERE title ILIKE '%search_topic%';
+
+**When you execute the ".py" or ".bat" files to store issues in a CSV format, a corresponding "SQ.pars.<"issue">.txt" file will be created. This file will store the params of the last query performed for a specific issue.**
 
 ## Development Summary
 
-This program utilizes the StackOverflow API to retrieve discussions related to a specified search title. It stores these discussions in a local database using PostgreSQL. The program checks if each discussion already exists in the database and, if not, and it has a score greater than or equal to zero, it inserts it. Additionally, the program provides statistics on the number of questions found, inserted, skipped due to negative votes, and skipped due to already existing in the database.
+This program utilizes the StackOverflow API to retrieve discussions related to a specified search title. It stores these discussions in a local database using PostgreSQL or CSV file. The program checks if each discussion already exists in the database or CSV file and, if not, and it has a score greater than or equal to zero, it inserts it. Additionally, the program provides statistics on the number of questions found, inserted, skipped due to negative votes, and skipped due to already existing in the database or CSV file.
 
-The database stores the following attributes for each discussion:
+The database or CSV file stores the following attributes for each discussion:
 
 | Attribute     | Description                          |
 | ------------- | ------------------------------------ |

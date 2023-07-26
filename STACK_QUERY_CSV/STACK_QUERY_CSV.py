@@ -25,27 +25,58 @@ params = {
     "intitle": args.intitle,
 }
 
+header_pars = [
+    "TIMESTAMP",
+    "API_KEY",
+    "SEARCH_TITLE",
+    "UPPER_DATE",
+    "DIRECTORY"
+]
+
 csv_rows = []
 existing_ids = set()
 
-filename_with_extension = os.path.join(args.directory, f"{args.intitle}.csv")
+file_CSV = os.path.join(args.directory, f"{args.intitle}.csv")
+file_pars = os.path.join("./Test/", f"SQ.pars.{args.intitle}.txt")
 
 existing_info_count = 0  # Store the amount of existing information in the file
+    
+# Validate if the file exists
+if os.path.exists(file_pars):
+    # If the file exists, open it in read mode ('r')
+    with open(file_pars, 'r') as file:
+        # Read the existing content
+        content = file.read()
 
-if os.path.isfile(filename_with_extension):
+    # If the content is empty, add the headers
+    if not content.strip():
+        with open(file_pars, 'a') as file:
+            file.write(','.join(header_pars) + '\n')
+else:
+    # If the file does not exist, create it and open it in write mode ('w')
+    with open(file_pars, 'w') as file:
+        file.write(','.join(header_pars) + '\n')
+
+# Add the information of the variables to the file
+with open(file_pars, 'w') as file:
+    file.write(','.join(header_pars) + '\n')
+    file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S') }, { args.key }, { args.intitle }, { args.upper_date }, { args.directory }\n")
+        
+        
+if os.path.isfile(file_CSV):
     # Load existing discussion IDs from the CSV file
-    with open(filename_with_extension, 'r', newline='', encoding='utf-8') as csvfile:
+    with open(file_CSV, 'r', newline='', encoding='utf-8') as csvfile:
         reader = csv.reader(csvfile)
         existing_ids = set(row[0] for row in reader)
         existing_info_count = len(existing_ids)
 else:
     # The file does not exist, create it and write the header
-    with open(filename_with_extension, 'w', newline='', encoding='utf-8') as csvfile:
+    with open(file_CSV, 'w', newline='', encoding='utf-8') as csvfile:
         fieldnames = ['id_discussion', 'title', 'link', 'score', 'answer_count', 'view_count', 'creation_date', 'tags']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
 
-with open(filename_with_extension, 'a', newline='', encoding='utf-8') as csvfile:
+with open(file_CSV, 'a', newline='', encoding='utf-8') as csvfile:
     fieldnames = ['id_discussion', 'title', 'link', 'score', 'answer_count', 'view_count', 'creation_date', 'tags']
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 

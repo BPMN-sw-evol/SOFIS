@@ -75,9 +75,9 @@ exit /b
 :show_help
 echo.
 echo Description: This program runs on the console, was developed in Python and uses a StackExchange API
-echo to get stackoverflow issues based on user-supplied search criteria. It then stores the results in a
-echo CSV file in a specific directory, provided by a Windows batch file (executable) that requests the 
-echo necessary arguments to run the program.
+echo to get stackoverflow issues based on user-supplied search criteria, as of 01/14/2014. it stores the  
+echo results in a CSV file in a specific directory, provided by a Windows batch file (executable) that  
+echo requests the necessary arguments to run the program.
 echo.
 echo sage: %~nx0 -k "API Key" -i "Search Title" -s "Upper date (DD-MM-YYYY)" -d "Directory to save CSV files" [-r]
 echo.

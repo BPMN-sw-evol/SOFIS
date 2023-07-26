@@ -2,7 +2,7 @@
 
 This program fetches discussions from StackOverflow on a given topic using the StackOverflow API and stores the results in either a PostgreSQL database or local CSV files.
 
-## Índice
+## Index
 
 1. [Description](#description)
 2. [API](#api)

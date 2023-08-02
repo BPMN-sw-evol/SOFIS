@@ -68,7 +68,7 @@ neg_votes_omitted_count = 0
 existing_omitted_count = 0
 
 # Get the argument upper date and convert to a datatime object
-fecha_superior = datetime.strptime(args.fecha_superior, '%d-%m-%Y')
+fecha_superior = datetime.strptime(args.upper_date, '%d-%m-%Y')
 
 for question in questions:
     id_discussion = question["question_id"]

@@ -64,7 +64,7 @@ if "%SEARCH_TITLE%"=="" (
 )
 
 if "%DATABASE%"=="" (
-    echo Error: Database not provided. Use -d argument with a database. Example -d "STACK_QUERY".
+    echo Error: Database not provided. Use -d argument with a database. Example -d "SOFIS".
     exit /b 1
 )
 

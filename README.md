@@ -1,4 +1,4 @@
-# STACK_QUERY
+#  **S**tack **O**ver**F**low **I**ssues **S**earcher - SOFIS
 
 This program fetches discussions from StackOverflow on a given topic using the StackOverflow API, **consults issues that have been created as of 14/01/2014**, and stores the results in a PostgreSQL database or in local CSV files.
 
@@ -14,10 +14,10 @@ This program fetches discussions from StackOverflow on a given topic using the S
 
 ## Description
 
-**STACK_QUERY** is a program that allows you to retrieve issues from StackOverflow based on a specified search topic as of 14/01/2014. Two versions are available:
+**SOFIS** is a program that allows you to retrieve issues from StackOverflow based on a specified search topic as of 14/01/2014. Two versions are available:
 
-- **STACK_QUERY_CSV**: This version generates a CSV file with the obtained results.
-- **STACK_QUERY_DB**: This version uses a PostgreSQL database to store the obtained results.
+- **SOFIS_CSV**: This version generates a CSV file with the obtained results.
+- **SOFIS_DB**: This version uses a PostgreSQL database to store the obtained results.
 
 ## API
 
@@ -41,11 +41,11 @@ Before running the program, ensure that you have the following prerequisites ins
 If you plan to use the PostgreSQL version (STACK_QUERY_DB), follow the steps below:
 
 6. **Install PostgreSQL**: Download and install the stable or latest version from the [official PostgreSQL website](https://www.postgresql.org/download/).
-7. **Using pgAdmin 4** (included with PostgreSQL), create a database called `STACK_QUERY`.
-8. **Create the required table**: In the `STACK_QUERY` database, execute the `BPM_PC_Query.sql` script to create the required table. The script is available in the repository.
+7. **Using pgAdmin 4** (included with PostgreSQL), create a database called `SOFIS`.
+8. **Create the required table**: In the `SOFIS` database, execute the `SOFIS_Query.sql` script to create the required table. The script is available in the repository.
 
    ````sql
-   CREATE TABLE BPM_PC_QUERY (
+   CREATE TABLE SOFIS_QUERY (
       id_discussion SERIAL PRIMARY KEY,
       topic VARCHAR(25),
       title VARCHAR(255),
@@ -64,43 +64,43 @@ To execute the program, use one of the 3 ways the program can be execute:
 
 1. To execute the Python script, use the following command in the terminal or command prompt:
 
-   - **For STACK_QUERY_DB:**
+   - **For SOFIS_DB:**
       ![comando de ejecucion](STACK_QUERY_DB/commands_to_execute/command_execute_py_DB.png)
       
          python STACK_QUERY_DB.py -k "YOUR_API_KEY" -i "search_topic" -d "STACK_QUERY" -u "postgres" -p "1234" -f "12-06-2023"
 
-   - **For STACK_QUERY_CSV:**
+   - **For SOFIS_CSV:**
       ![comando de ejecucion](STACK_QUERY_CSV/commands_to_execute/command_execute_py_CSV.png)
 
          python STACK_QUERY_CSV.py -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
 
 2. Alternatively, you can use the provided batch file to execute the program. Open the terminal or command prompt and run the following command:
 
-   - **For STACK_QUERY_DB:**
+   - **For SOFIS_DB:**
       ![comando de ejecucion](STACK_QUERY_DB/commands_to_execute/command_execute_bat_DB.png)
       
          .\STACK_QUERY_DB.bat -k "YOUR_API_KEY" -i "search_topic" -d "STACK_QUERY" -u "postgres" -p "1234" -f "12-06-2023"
 
-   - **For STACK_QUERY_CSV:**
+   - **For SOFIS_CSV:**
       ![comando de ejecucion](STACK_QUERY_CSV/commands_to_execute/command_execute_bat_CSV.png)
 
          .\STACK_QUERY_CSV.bat -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
 
 3. For Windows users, you can directly run the provided executable file. Simply double-click on the "STACK_QUERY_*.exe" file to execute the program:
 
-   - **For STACK_QUERY_DB:**
+   - **For SOFIS_DB:**
       ![comando de ejecucion](STACK_QUERY_DB/commands_to_execute/command_execute_exe_DB.png)
       
          cd .\executable\
 
-         .\STACK_QUERY_DB.exe
+         .\SOFIS_DB.exe
 
-   - **For STACK_QUERY_CSV:**
+   - **For SOFIS_CSV:**
          ![comando de ejecucion](STACK_QUERY_CSV/commands_to_execute/command_execute_exe_CSV.png)
 
          cd .\executable\
 
-         .\STACK_QUERY_CSV.exe
+         .\SOFIS_CSV.exe
 
 
 **Replace the placeholder values with your specific information.**
@@ -109,7 +109,7 @@ If there are no errors, the program will save the data while discarding discussi
 
 To verify the data, execute the following SQL statement in pgAdmin 4:
 
-      SELECT \* FROM BPM_PC_QUERY WHERE title ILIKE '%search_topic%';
+      SELECT \* FROM SOFIS_QUERY WHERE title ILIKE '%search_topic%';
 
 **When you execute the ".py" or ".bat" files to store issues in a CSV format, a corresponding "SQ.pars.<"issue">.txt" file will be created. This file will store the params of the last query performed for a specific issue.**
 

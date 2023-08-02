@@ -1,4 +1,4 @@
-#  **S**tack **O**ver**F**low **I**ssues **S**earcher - SOFIS
+#  Stack OverFlow Issues Searcher - SOFIS
 
 This program fetches discussions from StackOverflow on a given topic using the StackOverflow API, **consults issues that have been created as of 14/01/2014**, and stores the results in a PostgreSQL database or in local CSV files.
 
@@ -32,13 +32,13 @@ Before running the program, ensure that you have the following prerequisites ins
 
 1. **Code editor**: if you want to modify the program you must have, we recommend using Visual Studio Code (VS Code). You can download it from the [official website](https://code.visualstudio.com/download).
 2. **Version control system**: Install GIT from the [official website](https://git-scm.com/downloads).
-3. **Clone the repository**: Use the following command to clone the repository: `git clone https://github.com/danilonunezgil/BPM_PC_S.git`.
+3. **Clone the repository**: Use the following command to clone the repository: `git clone https://github.com/BPMN-sw-evol/SOFIS.git`.
 4. **Python**: Install Python from the [official website](https://www.python.org/downloads/) or install the Python extension in VS Code.
 5. **Required Python modules**:
    - requests (for making HTTP requests): `pip install requests`
-   - psycopg2-binary (only for STACK_QUERY_DB version): `pip install psycopg2-binary`
+   - psycopg2-binary (only for SOFIS_DB version): `pip install psycopg2-binary`
 
-If you plan to use the PostgreSQL version (STACK_QUERY_DB), follow the steps below:
+If you plan to use the PostgreSQL version (SOFIS_DB), follow the steps below:
 
 6. **Install PostgreSQL**: Download and install the stable or latest version from the [official PostgreSQL website](https://www.postgresql.org/download/).
 7. **Using pgAdmin 4** (included with PostgreSQL), create a database called `SOFIS`.
@@ -65,38 +65,38 @@ To execute the program, use one of the 3 ways the program can be execute:
 1. To execute the Python script, use the following command in the terminal or command prompt:
 
    - **For SOFIS_DB:**
-      ![comando de ejecucion](STACK_QUERY_DB/commands_to_execute/command_execute_py_DB.png)
+      ![comando de ejecucion](SOFIS_DB/commands_to_execute/command_execute_py_DB.png)
       
-         python STACK_QUERY_DB.py -k "YOUR_API_KEY" -i "search_topic" -d "STACK_QUERY" -u "postgres" -p "1234" -f "12-06-2023"
+         python SOFIS_DB.py -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"
 
    - **For SOFIS_CSV:**
-      ![comando de ejecucion](STACK_QUERY_CSV/commands_to_execute/command_execute_py_CSV.png)
+      ![comando de ejecucion](SOFIS_CSV/commands_to_execute/command_execute_py_CSV.png)
 
-         python STACK_QUERY_CSV.py -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
+         python SOFIS_CSV.py -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
 
 2. Alternatively, you can use the provided batch file to execute the program. Open the terminal or command prompt and run the following command:
 
    - **For SOFIS_DB:**
-      ![comando de ejecucion](STACK_QUERY_DB/commands_to_execute/command_execute_bat_DB.png)
+      ![comando de ejecucion](SOFIS_DB/commands_to_execute/command_execute_bat_DB.png)
       
-         .\STACK_QUERY_DB.bat -k "YOUR_API_KEY" -i "search_topic" -d "STACK_QUERY" -u "postgres" -p "1234" -f "12-06-2023"
+         .\SOFIS_DB.bat -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"
 
    - **For SOFIS_CSV:**
-      ![comando de ejecucion](STACK_QUERY_CSV/commands_to_execute/command_execute_bat_CSV.png)
+      ![comando de ejecucion](SOFIS_CSV/commands_to_execute/command_execute_bat_CSV.png)
 
-         .\STACK_QUERY_CSV.bat -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
+         .\SOFIS_CSV.bat -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
 
-3. For Windows users, you can directly run the provided executable file. Simply double-click on the "STACK_QUERY_*.exe" file to execute the program:
+3. For Windows users, you can directly run the provided executable file. Simply double-click on the "SOFIS_*.exe" file to execute the program:
 
    - **For SOFIS_DB:**
-      ![comando de ejecucion](STACK_QUERY_DB/commands_to_execute/command_execute_exe_DB.png)
+      ![comando de ejecucion](SOFIS_DB/commands_to_execute/command_execute_exe_DB.png)
       
          cd .\executable\
 
          .\SOFIS_DB.exe
 
    - **For SOFIS_CSV:**
-         ![comando de ejecucion](STACK_QUERY_CSV/commands_to_execute/command_execute_exe_CSV.png)
+         ![comando de ejecucion](SOFIS_CSV/commands_to_execute/command_execute_exe_CSV.png)
 
          cd .\executable\
 

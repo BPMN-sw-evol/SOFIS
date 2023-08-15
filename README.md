@@ -1,6 +1,6 @@
 #  Stack OverFlow Issues Searcher - SOFIS
 
-This program fetches discussions from StackOverflow on a given topic using the StackOverflow API, **consults issues that have been created as of 14/01/2014**, and stores the results in a PostgreSQL database or in local CSV files.
+This program fetches discussions from StackOverflow on a given topic using the StackOverflow API, **consults issues that have been created as of 14/01/2014**, and stores the results in a PostgreSQL database or local CSV file.
 
 ## Index
 

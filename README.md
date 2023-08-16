@@ -20,10 +20,6 @@ SOFIS fetches discussions from StackOverflow on a given topic using the StackOve
 
 ***If you facing the choice between SOFIS_CSV and SOFIS_DB for your StackOverflow data needs, it's crucial to carefully assess your requirements before making a decision. SOFIS_CSV offers a swift and portable solution, enabling you to retrieve and store StackOverflow discussions in CSV format, sidestepping the intricacies of setting up a database; this option is ideal for straightforward analysis and seamless collaboration. In contrast, SOFIS_DB, built on PostgreSQL, provides greater power to handle substantial data volumes and in-depth analysis. The recommendation leans towards SOFIS_CSV if you're seeking a direct and efficient approach to obtain and share relevant information.***
 
-## API
-
-
-
 ## Prerequisites
 Before running SOFIS, ensure that you have the following prerequisites installed:
 

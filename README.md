@@ -5,11 +5,12 @@ SOFIS fetches discussions from StackOverflow on a given topic using the StackOve
 ## Index
 
 1. [Description](#description)
-2. [Prerequisites](#prerequisites)
-3. [Usage](#usage)
-4. [Development Summary](#development-summary)
-5. [API Usage Limitations](#api-usage-limitations)
-6. [Future Improvements](#future-improvements)
+2. [Requirements for executing the program](#requirements-for-executing-the-program)
+3. [Modification Prerequisites](#modification-prerequisites)
+4. [Usage](#usage)
+5. [Development Summary](#development-summary)
+6. [API Usage Limitations](#api-usage-limitations)
+7. [Future Improvements](#future-improvements)
 
 ## Description
 
@@ -20,8 +21,29 @@ SOFIS fetches discussions from StackOverflow on a given topic using the StackOve
 
 ***If you facing the choice between SOFIS_CSV and SOFIS_DB for your StackOverflow data needs, it's crucial to carefully assess your requirements before making a decision. SOFIS_CSV offers a swift and portable solution, enabling you to retrieve and store StackOverflow discussions in CSV format, sidestepping the intricacies of setting up a database; this option is ideal for straightforward analysis and seamless collaboration. In contrast, SOFIS_DB, built on PostgreSQL, provides greater power to handle substantial data volumes and in-depth analysis. The recommendation leans towards SOFIS_CSV if you're seeking a direct and efficient approach to obtain and share relevant information.***
 
-## Prerequisites
-Before running SOFIS, ensure that you have the following prerequisites installed:
+## Requirements for executing SOFIS
+
+1. **API_KEY**: To use the StackOverflow API and make requests, you will need an API key. Follow the steps below to obtain the necessary credentials:
+
+   - Register an account at [Stack Apps](https://stackapps.com/users/login).
+   - Register your application to obtain the API credentials at [Stack Apps - Register an Application](https://stackapps.com/apps/oauth/register).
+   - Obtain a client ID and a secret key for OAuth authentication on Stack Overflow.
+2. Download the .BAT file of your choice:
+   - For SOFIS_CSV:
+     * Go to the SOFIS_CSV folder and download the SOFIS_CSV.bat file only.
+     * To run the SOFIS_CSV.bat file, open a console or command prompt at the location of the file and run the following command:
+       ````
+         SOFIS_CSV.bat -h
+       ````
+   - For SOFIS_DB:
+     * Go to the SOFIS_DB folder and download the SOFIS_DB.bat file only.
+     * To run the SOFIS_DB.bat file, open a console or command prompt at the location of the file and run the following command:
+        ````
+         SOFIS_DB.bat -h
+        ````
+
+## Modification Prerequisites
+Before modifying SOFIS, make sure you have the following prerequisites installed:
 
 1. **Code editor**: If you want to modify to SOFIS you must have, we recommend using Visual Studio Code (VS Code). You can download it from the [official website](https://code.visualstudio.com/download).
 2. **Version control system**: Install GIT from the [official website](https://git-scm.com/downloads).
@@ -50,10 +72,6 @@ If you plan to use the PostgreSQL version (SOFIS_DB), follow the steps below:
       tags VARCHAR(255)
    );
    ````
-9. **StackOverflow APIKEY**: To use the StackOverflow API and make requests, you will need an API key. Follow the steps below to obtain the necessary credentials:
-   - Register an account at [Stack Apps](https://stackapps.com/users/login).
-   - Register your application to obtain the API credentials at [Stack Apps - Register an Application](https://stackapps.com/apps/oauth/register).
-   - Obtain a client ID and a secret key for OAuth authentication on Stack Overflow.   
 
 ## Usage
 
@@ -61,35 +79,28 @@ To execute SOFIS, use one of the 3 ways the program can be execute:
 
 1. To execute the Python script, use the following command in the terminal or command prompt:
 
+   - **For SOFIS_CSV:**
+      ![comando de ejecucion](SOFIS_CSV/commands_to_execute/command_execute_py_CSV.png)
+
+         python SOFIS_CSV.py -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
    - **For SOFIS_DB:**
       ![comando de ejecucion](SOFIS_DB/commands_to_execute/command_execute_py_DB.png)
       
          python SOFIS_DB.py -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"
 
-   - **For SOFIS_CSV:**
-      ![comando de ejecucion](SOFIS_CSV/commands_to_execute/command_execute_py_CSV.png)
-
-         python SOFIS_CSV.py -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
-
 2. Alternatively, you can use the provided batch file to execute SOFIS. Open the terminal or command prompt and run the following command:
-   - **For SOFIS_DB:**
-      ![comando de ejecucion](SOFIS_DB/commands_to_execute/command_execute_bat_DB.png)
-      
-         .\SOFIS_DB.bat -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"
-
+  
    - **For SOFIS_CSV:**
       ![comando de ejecucion](SOFIS_CSV/commands_to_execute/command_execute_bat_CSV.png)
 
          .\SOFIS_CSV.bat -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
+    - **For SOFIS_DB:**
+      ![comando de ejecucion](SOFIS_DB/commands_to_execute/command_execute_bat_DB.png)
+      
+         .\SOFIS_DB.bat -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"
+
 
 3. For Windows users, you can directly run the provided executable file. Simply double-click on the "SOFIS_*.exe" file to execute the program:
-
-   - **For SOFIS_DB:**
-      ![comando de ejecucion](SOFIS_DB/commands_to_execute/command_execute_exe_DB.png)
-      
-         cd .\executable\
-
-         .\SOFIS_DB.exe
 
    - **For SOFIS_CSV:**
          ![comando de ejecucion](SOFIS_CSV/commands_to_execute/command_execute_exe_CSV.png)
@@ -97,7 +108,13 @@ To execute SOFIS, use one of the 3 ways the program can be execute:
          cd .\executable\
 
          .\SOFIS_CSV.exe
+     
+   - **For SOFIS_DB:**
+      ![comando de ejecucion](SOFIS_DB/commands_to_execute/command_execute_exe_DB.png)
+      
+         cd .\executable\
 
+         .\SOFIS_DB.exe
 
 **Replace the placeholder values with your specific information.**
 

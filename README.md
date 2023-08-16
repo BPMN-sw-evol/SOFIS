@@ -1,36 +1,33 @@
 #  Stack OverFlow Issues Searcher - SOFIS
 
-This program fetches discussions from StackOverflow on a given topic using the StackOverflow API, **consults issues that have been created as of 14/01/2014**, and stores the results in a PostgreSQL database or local CSV file.
+SOFIS fetches discussions from StackOverflow on a given topic using the StackOverflow API, **consults issues that have been created as of 14/01/2014**, and stores the results in a PostgreSQL database or local CSV file.
 
 ## Index
 
 1. [Description](#description)
-2. [API](#api)
-3. [Prerequisites](#prerequisites)
-4. [Usage](#usage)
-5. [Development Summary](#development-summary)
-6. [API Usage Limitations](#api-usage-limitations)
-7. [Future Improvements](#future-improvements)
+2. [Prerequisites](#prerequisites)
+3. [Usage](#usage)
+4. [Development Summary](#development-summary)
+5. [API Usage Limitations](#api-usage-limitations)
+6. [Future Improvements](#future-improvements)
 
 ## Description
 
-**SOFIS** is a program that allows you to retrieve issues from StackOverflow based on a specified search topic as of 14/01/2014. Two versions are available:
+**SOFIS** allows you to retrieve StackOverflow issues based on a specified search topic as of 01/14/2014. There are two versions of SOFIS available:
 
 - **SOFIS_CSV**: This version generates a CSV file with the obtained results.
 - **SOFIS_DB**: This version uses a PostgreSQL database to store the obtained results.
 
+***If you facing the choice between SOFIS_CSV and SOFIS_DB for your StackOverflow data needs, it's crucial to carefully assess your requirements before making a decision. SOFIS_CSV offers a swift and portable solution, enabling you to retrieve and store StackOverflow discussions in CSV format, sidestepping the intricacies of setting up a database; this option is ideal for straightforward analysis and seamless collaboration. In contrast, SOFIS_DB, built on PostgreSQL, provides greater power to handle substantial data volumes and in-depth analysis. The recommendation leans towards SOFIS_CSV if you're seeking a direct and efficient approach to obtain and share relevant information.***
+
 ## API
 
-To use the StackOverflow API and make requests, you will need an API key. Follow the steps below to obtain the necessary credentials:
 
-1. Register an account at [Stack Apps](https://stackapps.com/users/login).
-2. Register your application to obtain the API credentials at [Stack Apps - Register an Application](https://stackapps.com/apps/oauth/register).
-3. Obtain a client ID and a secret key for OAuth authentication on Stack Overflow.
 
 ## Prerequisites
-Before running the program, ensure that you have the following prerequisites installed:
+Before running SOFIS, ensure that you have the following prerequisites installed:
 
-1. **Code editor**: if you want to modify the program you must have, we recommend using Visual Studio Code (VS Code). You can download it from the [official website](https://code.visualstudio.com/download).
+1. **Code editor**: If you want to modify to SOFIS you must have, we recommend using Visual Studio Code (VS Code). You can download it from the [official website](https://code.visualstudio.com/download).
 2. **Version control system**: Install GIT from the [official website](https://git-scm.com/downloads).
 3. **Clone the repository**: Use the following command to clone the repository: `git clone https://github.com/BPMN-sw-evol/SOFIS.git`.
 4. **Python**: Install Python from the [official website](https://www.python.org/downloads/) or install the Python extension in VS Code.
@@ -56,11 +53,15 @@ If you plan to use the PostgreSQL version (SOFIS_DB), follow the steps below:
       creation_date DATE,
       tags VARCHAR(255)
    );
-   ````   
+   ````
+9. **API_KEY**: To use the StackOverflow API and make requests, you will need an API key. Follow the steps below to obtain the necessary credentials:
+   - Register an account at [Stack Apps](https://stackapps.com/users/login).
+   - Register your application to obtain the API credentials at [Stack Apps - Register an Application](https://stackapps.com/apps/oauth/register).
+   - Obtain a client ID and a secret key for OAuth authentication on Stack Overflow.   
 
 ## Usage
 
-To execute the program, use one of the 3 ways the program can be execute:
+To execute SOFIS, use one of the 3 ways the program can be execute:
 
 1. To execute the Python script, use the following command in the terminal or command prompt:
 
@@ -74,8 +75,7 @@ To execute the program, use one of the 3 ways the program can be execute:
 
          python SOFIS_CSV.py -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
 
-2. Alternatively, you can use the provided batch file to execute the program. Open the terminal or command prompt and run the following command:
-
+2. Alternatively, you can use the provided batch file to execute SOFIS. Open the terminal or command prompt and run the following command:
    - **For SOFIS_DB:**
       ![comando de ejecucion](SOFIS_DB/commands_to_execute/command_execute_bat_DB.png)
       
@@ -115,7 +115,7 @@ To verify the data, execute the following SQL statement in pgAdmin 4:
 
 ## Development Summary
 
-This program utilizes the StackOverflow API to retrieve discussions related to a specified search title. It stores these discussions in a local database using PostgreSQL or CSV file. The program checks if each discussion already exists in the database or CSV file and, if not, and it has a score greater than or equal to zero, it inserts it. Additionally, the program provides statistics on the number of questions found, inserted, skipped due to negative votes, and skipped due to already existing in the database or CSV file.
+SOFIS utilizes the StackOverflow API to retrieve discussions related to a specified search title. It stores these discussions in a local database using PostgreSQL or CSV file. SOFIS checks if each discussion already exists in the database or CSV file and, if not, and it has a score greater than or equal to zero, it inserts it. Additionally,  provides information on the number of questions found, inserted, skipped due to negative votes, and skipped due to already existing in the database or CSV file.
 
 The database or CSV file stores the following attributes for each discussion:
 

@@ -50,7 +50,7 @@ If you plan to use the PostgreSQL version (SOFIS_DB), follow the steps below:
       tags VARCHAR(255)
    );
    ````
-9. **API_KEY**: To use the StackOverflow API and make requests, you will need an API key. Follow the steps below to obtain the necessary credentials:
+9. **StackOverflow APIKEY**: To use the StackOverflow API and make requests, you will need an API key. Follow the steps below to obtain the necessary credentials:
    - Register an account at [Stack Apps](https://stackapps.com/users/login).
    - Register your application to obtain the API credentials at [Stack Apps - Register an Application](https://stackapps.com/apps/oauth/register).
    - Obtain a client ID and a secret key for OAuth authentication on Stack Overflow.   

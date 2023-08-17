@@ -1,21 +1,85 @@
 import argparse
-import csv
-import requests
+import os
+import sys
 import time
 from datetime import datetime
-import os
+import csv
+import requests
 
-# Create the ArgumentParser object
-parser = argparse.ArgumentParser(description='Get and store StackOverflow questions')
+# Function to display help
+def show_help():
+    print("""
+This program fetches Stackoverflow issues related to a specific BPM engine as required by user-provided search criteria.
+Issues are obtained from 14/01/2014 (the official release date of the BPMN 2.0 standard). Results are stored in a CSV file provided by the user.
+More information at https://github.com/BPMN-sw-evol/SOFIS.git
 
-# Add the arguments
-parser.add_argument('-k', '--key', required=True, help='StackExchange API Key')
-parser.add_argument('-i', '--intitle', required=True, help='StackOverflow Search Title')
-parser.add_argument('-u', '--upper-date', required=True, help='Upper date to filter discussions (DD-MM-YYYY)')
-parser.add_argument('-d', '--directory', required=True, help='Directory to save CSV files')
+Usage: python stackoverflow_fetcher.py -k "API Key" -i "Search Title" -u "Upper Date (DD-MM-YYYY)" -d "Directory to save CSV files"
 
-# Parse the command line arguments
+OPTIONS:
+  -k, --key            StackExchange API Key (mandatory)
+                       Example: -k "ahhBNdmxDJ5zP2dxaJvCHw(("
+
+  -i, --intitle        Search Title on StackOverflow (mandatory)
+                       Example: -i "camunda"
+
+  -u, --upper-date     Upper date for filtering discussions (DD-MM-YYYY) (mandatory)
+                       Example: -u "12-06-2023"
+
+  -d, --directory      Directory to save CSV files (mandatory)
+                       Example: -d "G:\Tutorials"
+""")
+    sys.exit()
+
+# Create ArgumentParser object
+parser = argparse.ArgumentParser(description='Fetch and store StackOverflow questions')
+
+# Add arguments
+parser.add_argument('-k', '--key', nargs='?', const='help_key', help='StackExchange API Key')
+parser.add_argument('-i', '--intitle', nargs='?', const='help_intitle', help='Search Title on StackOverflow')
+parser.add_argument('-u', '--upper-date', nargs='?', const='help_upper_date', help='Upper date for filtering discussions (DD-MM-YYYY)')
+parser.add_argument('-d', '--directory', nargs='?', const='help_directory', help='Directory to save CSV files')
+
+# Check if help argument is provided
+if '-h' in sys.argv or '--help' in sys.argv:
+    show_help()
+
+# Parse command line arguments
 args = parser.parse_args()
+
+if args.key == 'help_key':
+    print(f"Help for '-k': {parser._option_string_actions['-k'].help}")
+    sys.exit(1)
+elif args.intitle == 'help_intitle':
+    print(f"Help for '-i': {parser._option_string_actions['-i'].help}")
+    sys.exit(1)
+elif args.upper_date == 'help_upper_date':
+    print(f"Help for '-u': {parser._option_string_actions['-u'].help}")
+    sys.exit(1)
+elif args.directory == 'help_directory':
+    print(f"Help for '-d': {parser._option_string_actions['-d'].help}")
+    sys.exit(1)
+
+# Verify if all required arguments are provided
+if len(sys.argv) == 1:
+    print("Error: Insufficient arguments. Provide all required parameters. For more information, use [-h]")
+    print("Usage: python %s -k \"API Key\" -i \"Search Title\" -u \"Upper Date (DD-MM-YYYY)\" -d \"Directory to save CSV files\"" % sys.argv[0])
+    sys.exit(1)
+
+if not args.key:
+    print("Error: API Key not provided. Use the -k argument with an API_KEY. Example: -k \"ahhBNdmxDJ5zP2dxaJvCHw((")
+    sys.exit(1)
+
+if not args.intitle:
+    print("Error: Search Title not provided. Use the -i argument with a title. Example: -i \"camunda\"")
+    sys.exit(1)
+
+if not args.upper_date:
+    print("Error: Upper Date not provided. Use the -u argument with a date in the format DD-MM-YYYY. Example: -u \"12-06-2023\"")
+    sys.exit(1)
+
+if not args.directory:
+    print("Error: Directory not provided. Use the -d argument with a directory. Example: -d \"G:\\Tutorials\"")
+    sys.exit(1)
 
 url = "https://api.stackexchange.com/2.3/search"
 
@@ -37,10 +101,10 @@ csv_rows = []
 existing_ids = set()
 
 file_CSV = os.path.join(args.directory, f"{args.intitle}.csv")
-file_pars = os.path.join("./Test/", f"SQ.pars.{args.intitle}.txt")
+file_pars = os.path.join(args.directory, f"SQ.pars.{args.intitle}.txt")
 
 existing_info_count = 0  # Store the amount of existing information in the file
-    
+
 # Validate if the file exists
 if os.path.exists(file_pars):
     # If the file exists, open it in read mode ('r')
@@ -61,8 +125,7 @@ else:
 with open(file_pars, 'w') as file:
     file.write(','.join(header_pars) + '\n')
     file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S') }, { args.key }, { args.intitle }, { args.upper_date }, { args.directory }\n")
-        
-        
+
 if os.path.isfile(file_CSV):
     # Load existing discussion IDs from the CSV file
     with open(file_CSV, 'r', newline='', encoding='utf-8') as csvfile:

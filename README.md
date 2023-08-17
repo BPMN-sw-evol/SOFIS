@@ -6,13 +6,15 @@ The retrieved discussions with negative votes (less than zero) are not listed. I
 
 ## Index
 
-- [Description](#description)
-- [SO API requirement](#so-api-requirement)
-- [Usage](#usage)
-- [Using the source code](#Using-the-source-code)
-- [Development Summary](#development-summary)
-- [API Usage Limitations](#api-usage-limitations)
-- [Future Improvements](#future-improvements)
+- [Stack OverFlow Issues Searcher - SOFIS](#stack-overflow-issues-searcher---sofis)
+  - [Index](#index)
+  - [Description](#description)
+  - [SO API requirement](#so-api-requirement)
+  - [Usage](#usage)
+  - [Using the source code](#using-the-source-code)
+  - [Development Summary](#development-summary)
+  - [API Usage Limitations](#api-usage-limitations)
+  - [Future Improvements](#future-improvements)
 
 ## Description
 
@@ -27,6 +29,8 @@ To use the StackOverflow API and make requests, you will need an API key. Follow
 
 - Register an account at [Stack Apps](https://stackapps.com/users/login).
 - Register your application to obtain the API credentials at [Stack Apps - Register an Application](https://stackapps.com/apps/oauth/register). Here you will obtain a client ID and a secret key for OAuth authentication on Stack Overflow. You will need to provide this key when using SOFIS.  
+
+If you need to consult your SO API data, go to [Your Apps](https://stackapps.com/apps/oauth) on [stackapps](stackapps.com). 
 
 ## Usage
 

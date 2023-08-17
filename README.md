@@ -6,15 +6,13 @@ The retrieved discussions with negative votes (less than zero) are not listed. I
 
 ## Index
 
-- [Stack OverFlow Issues Searcher - SOFIS](#stack-overflow-issues-searcher---sofis)
-  - [Index](#index)
-  - [Description](#description)
-  - [SO API requirement](#so-api-requirement)
-  - [Usage](#usage)
-  - [Using the source code](#using-the-source-code)
-  - [Development Summary](#development-summary)
-  - [API Usage Limitations](#api-usage-limitations)
-  - [Future Improvements](#future-improvements)
+- [Description](#description)
+- [SO API requirement](#so-api-requirement)
+- [Usage](#usage)
+- [Using the source code](#using-the-source-code)
+- [Development Summary](#development-summary)
+- [API Usage Limitations](#api-usage-limitations)
+- [Future Improvements](#future-improvements)
 
 ## Description
 

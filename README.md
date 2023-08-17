@@ -1,52 +1,112 @@
 #  Stack OverFlow Issues Searcher - SOFIS
 
-SOFIS fetches discussions from StackOverflow on a given topic using the StackOverflow API, **consults issues that have been created as of 14/01/2014**, and stores the results in a PostgreSQL database or local CSV file.
+SOFIS fetches discussions from StackOverflow - SO, on a given topic using the StackOverflow API, it consults **issues that have been created as of 14/01/2014**, and stores the results in a PostgreSQL database or local CSV file.
+
+The retrieved discussions with negative votes (less than zero) are not listed. It also performs validation to avoid duplicates in the CSV file or the database table.
 
 ## Index
 
-1. [Description](#description)
-2. [Requirements for executing the program](#requirements-for-executing-the-program)
-3. [Modification Prerequisites](#modification-prerequisites)
-4. [Usage](#usage)
-5. [Development Summary](#development-summary)
-6. [API Usage Limitations](#api-usage-limitations)
-7. [Future Improvements](#future-improvements)
+- [Description](#description)
+- [SO API requirement](#so-api-requirement)
+- [Usage](#usage)
+- [Using the source code](#Using-the-source-code)
+- [Development Summary](#development-summary)
+- [API Usage Limitations](#api-usage-limitations)
+- [Future Improvements](#future-improvements)
 
 ## Description
 
 **SOFIS** allows you to retrieve StackOverflow issues based on a specified search topic as of 01/14/2014. There are two versions of SOFIS available:
 
-- **SOFIS_CSV**: This version generates a CSV file with the obtained results.
-- **SOFIS_DB**: This version uses a PostgreSQL database to store the obtained results.
+- **SOFIS_CSV**: This version generates a CSV file with the obtained results. It offers a swift and portable solution, enabling you to retrieve and store StackOverflow issues in a CSV format, sidestepping the intricacies of setting up a database; this option is ideal for straightforward analysis and seamless collaboration. 
+- **SOFIS_DB**: This version uses a PostgreSQL database to store the obtained results. It is built on PostgreSQL, provides greater power to handle substantial data volumes and in-depth analysis.
 
-***If you facing the choice between SOFIS_CSV and SOFIS_DB for your StackOverflow data needs, it's crucial to carefully assess your requirements before making a decision. SOFIS_CSV offers a swift and portable solution, enabling you to retrieve and store StackOverflow discussions in CSV format, sidestepping the intricacies of setting up a database; this option is ideal for straightforward analysis and seamless collaboration. In contrast, SOFIS_DB, built on PostgreSQL, provides greater power to handle substantial data volumes and in-depth analysis. The recommendation leans towards SOFIS_CSV if you're seeking a direct and efficient approach to obtain and share relevant information.***
+## SO API requirement
 
-## Requirements for executing SOFIS
+To use the StackOverflow API and make requests, you will need an API key. Follow the steps below to obtain the necessary credentials:
 
-1. **API_KEY**: To use the StackOverflow API and make requests, you will need an API key. Follow the steps below to obtain the necessary credentials:
+- Register an account at [Stack Apps](https://stackapps.com/users/login).
+- Register your application to obtain the API credentials at [Stack Apps - Register an Application](https://stackapps.com/apps/oauth/register). Here you will obtain a client ID and a secret key for OAuth authentication on Stack Overflow. You will need to provide this key when using SOFIS.  
 
-   - Register an account at [Stack Apps](https://stackapps.com/users/login).
-   - Register your application to obtain the API credentials at [Stack Apps - Register an Application](https://stackapps.com/apps/oauth/register).
-   - Obtain a client ID and a secret key for OAuth authentication on Stack Overflow.
-2. Download the .BAT file of your choice:
-   - For SOFIS_CSV:
-     * Go to the SOFIS_CSV folder and download the SOFIS_CSV.bat file only.
-     * To run the SOFIS_CSV.bat file, open a console or command prompt at the location of the file and run the following command:
-       ````
-         SOFIS_CSV.bat -h
-       ````
-   - For SOFIS_DB:
-     * Go to the SOFIS_DB folder and download the SOFIS_DB.bat file only.
-     * To run the SOFIS_DB.bat file, open a console or command prompt at the location of the file and run the following command:
-        ````
-         SOFIS_DB.bat -h
-        ````
+## Usage
 
-## Modification Prerequisites
-Before modifying SOFIS, make sure you have the following prerequisites installed:
+As previously described, SOFIS come with two versions, for creating a .CSV file o for adding records into a database table. Additionally, the software has, for each version, a way to be executed. Next are explained the different ways for each version. 
 
-1. **Code editor**: If you want to modify to SOFIS you must have, we recommend using Visual Studio Code (VS Code). You can download it from the [official website](https://code.visualstudio.com/download).
-2. **Version control system**: Install GIT from the [official website](https://git-scm.com/downloads).
+**SOFIS_CSV.** 
+
+1. Batch file. 
+
+   ![comando de ejecucion](SOFIS_CSV/commands_to_execute/command_execute_bat_CSV.png)
+
+    .\SOFIS_CSV.bat -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
+
+2. Python script. 
+
+   Use the following command in the terminal or command prompt:
+
+   ![comando de ejecucion](SOFIS_CSV/commands_to_execute/command_execute_py_CSV.png)
+
+   python SOFIS_CSV.py -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
+
+   
+
+   For Windows users, at the File Explorer you can double-click on the "SOFIS_CSV.exe" file to execute the program:
+
+
+   ​    ![comando de ejecucion](SOFIS_CSV/commands_to_execute/command_execute_exe_CSV.png)
+
+   ```
+   cd .\executable\
+   
+   .\SOFIS_CSV.exe
+   ```
+
+  
+
+**SOFIS_DB.**
+
+1. Batch file 
+
+   To execute SOFIS. Open the terminal or command prompt and run the following command:
+
+   ![comando de ejecucion](SOFIS_DB/commands_to_execute/command_execute_bat_DB.png)
+
+   .\SOFIS_DB.bat -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"
+
+2. Python script. 
+
+   ![comando de ejecucion](SOFIS_DB/commands_to_execute/command_execute_py_DB.png)
+
+    python SOFIS_DB.py -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"
+
+   
+
+   For Windows users, at the File Explorer you can double-click on the "SOFIS_DB.exe" file to execute the program:
+
+
+   ![comando de ejecucion](SOFIS_DB/commands_to_execute/command_execute_exe_DB.png)
+
+      cd .\executable\
+
+      .\SOFIS_DB.exe
+
+**NOTES**
+
+- When you execute the ".py" or ".bat" files to store issues in a CSV format, a corresponding "SQ.pars.<"issue">.txt" file will be created. This file will store the params of the last query performed for a specific issue.
+
+- To verify the data, execute the following SQL statement in pgAdmin 4:
+
+  ```
+    SELECT \* FROM SOFIS_QUERY WHERE title ILIKE '%search_topic%';
+  ```
+
+
+## Using the source code
+
+Before using the SOFIS source code, make sure you meet the following requisites:
+
+1. **Code editor**: If you want to modify to SOFIS we recommend using Visual Studio Code (VS Code). You can download it from the [official website](https://code.visualstudio.com/download).
+2. **GIT**: Install the version control system GIT from the [official website](https://git-scm.com/downloads).
 3. **Clone the repository**: Use the following command to clone the repository: `git clone https://github.com/BPMN-sw-evol/SOFIS.git`.
 4. **Python**: Install Python from the [official website](https://www.python.org/downloads/) or install the Python extension in VS Code.
 5. **Required Python modules**:
@@ -56,7 +116,9 @@ Before modifying SOFIS, make sure you have the following prerequisites installed
 If you plan to use the PostgreSQL version (SOFIS_DB), follow the steps below:
 
 6. **Install PostgreSQL**: Download and install the stable or latest version from the [official PostgreSQL website](https://www.postgresql.org/download/).
+
 7. **Using pgAdmin 4** (included with PostgreSQL), create a database called `SOFIS`.
+
 8. **Create the required table**: In the `SOFIS` database, execute the `SOFIS_Query.sql` script to create the required table. The script is available in the repository.
 
    ````sql
@@ -72,59 +134,6 @@ If you plan to use the PostgreSQL version (SOFIS_DB), follow the steps below:
       tags VARCHAR(255)
    );
    ````
-
-## Usage
-
-To execute SOFIS, use one of the 3 ways the program can be execute:
-
-1. To execute the Python script, use the following command in the terminal or command prompt:
-
-   - **For SOFIS_CSV:**
-      ![comando de ejecucion](SOFIS_CSV/commands_to_execute/command_execute_py_CSV.png)
-
-         python SOFIS_CSV.py -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
-   - **For SOFIS_DB:**
-      ![comando de ejecucion](SOFIS_DB/commands_to_execute/command_execute_py_DB.png)
-      
-         python SOFIS_DB.py -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"
-
-2. Alternatively, you can use the provided batch file to execute SOFIS. Open the terminal or command prompt and run the following command:
-  
-   - **For SOFIS_CSV:**
-      ![comando de ejecucion](SOFIS_CSV/commands_to_execute/command_execute_bat_CSV.png)
-
-         .\SOFIS_CSV.bat -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
-    - **For SOFIS_DB:**
-      ![comando de ejecucion](SOFIS_DB/commands_to_execute/command_execute_bat_DB.png)
-      
-         .\SOFIS_DB.bat -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"
-
-
-3. For Windows users, you can directly run the provided executable file. Simply double-click on the "SOFIS_*.exe" file to execute the program:
-
-   - **For SOFIS_CSV:**
-         ![comando de ejecucion](SOFIS_CSV/commands_to_execute/command_execute_exe_CSV.png)
-
-         cd .\executable\
-
-         .\SOFIS_CSV.exe
-     
-   - **For SOFIS_DB:**
-      ![comando de ejecucion](SOFIS_DB/commands_to_execute/command_execute_exe_DB.png)
-      
-         cd .\executable\
-
-         .\SOFIS_DB.exe
-
-**Replace the placeholder values with your specific information.**
-
-If there are no errors, the program will save the data while discarding discussions with negative votes (less than zero). It also performs validation to avoid duplicates in the database or CSV file.
-
-To verify the data, execute the following SQL statement in pgAdmin 4:
-
-      SELECT \* FROM SOFIS_QUERY WHERE title ILIKE '%search_topic%';
-
-**When you execute the ".py" or ".bat" files to store issues in a CSV format, a corresponding "SQ.pars.<"issue">.txt" file will be created. This file will store the params of the last query performed for a specific issue.**
 
 ## Development Summary
 

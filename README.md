@@ -6,15 +6,14 @@ The retrieved discussions with negative votes (less than zero) are not listed. I
 
 ## Index
 
-**[Stack OverFlow Issues Searcher - SOFIS](#stack-overflow-issues-searcher---sofis)**
-  - [Index](#index)
-  - [Description](#description)
-  - [SO API requirement](#so-api-requirement)
-  - [Usage](#usage)
-  - [Using the source code](#using-the-source-code)
-  - [Development Summary](#development-summary)
-  - [API Usage Limitations](#api-usage-limitations)
-  - [Future Improvements](#future-improvements)
+- [Description](#description)
+- [SO API requirement](#so-api-requirement)
+- [Usage](#usage)
+- [Using the source code](#using-the-source-code)
+- [Development Summary](#development-summary)
+- [API Usage Limitations](#api-usage-limitations)
+- [Future Improvements](#future-improvements)
+
 
 ## Description
 
@@ -57,7 +56,7 @@ As previously described, SOFIS come with two versions, for creating a .CSV file 
    For Windows users, at the File Explorer you can double-click on the "SOFIS_CSV_GUI.exe" file to execute the program:
 
 
-   ​    ![comando de ejecucion](SOFIS_CSV/Doc/img/command_execute_exe_CSV.png)
+   ![comando de ejecucion](SOFIS_CSV/Doc/img/command_execute_exe_CSV.png)
 
    ```
    cd .\Executables\

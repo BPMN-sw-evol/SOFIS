@@ -14,6 +14,7 @@ The retrieved discussions with negative votes (less than zero) are not listed. I
 - [API Usage Limitations](#api-usage-limitations)
 - [Future Improvements](#future-improvements)
 
+
 ## Description
 
 **SOFIS** allows you to retrieve StackOverflow issues based on a specified search topic as of 01/14/2014. There are two versions of SOFIS available:
@@ -38,7 +39,7 @@ As previously described, SOFIS come with two versions, for creating a .CSV file 
 
 1. Batch file. 
 
-   ![comando de ejecucion](SOFIS_CSV/commands_to_execute/command_execute_bat_CSV.png)
+   ![comando de ejecucion](SOFIS_CSV/Doc/img/command_execute_bat_CSV.png)
 
     .\SOFIS_CSV.bat -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
 
@@ -46,21 +47,21 @@ As previously described, SOFIS come with two versions, for creating a .CSV file 
 
    Use the following command in the terminal or command prompt:
 
-   ![comando de ejecucion](SOFIS_CSV/commands_to_execute/command_execute_py_CSV.png)
+   ![comando de ejecucion](SOFIS_CSV/Doc/img/command_execute_py_CSV.png)
 
    python SOFIS_CSV.py -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
 
    
 
-   For Windows users, at the File Explorer you can double-click on the "SOFIS_CSV.exe" file to execute the program:
+   For Windows users, at the File Explorer you can double-click on the "SOFIS_CSV_GUI.exe" file to execute the program:
 
 
-   ​    ![comando de ejecucion](SOFIS_CSV/commands_to_execute/command_execute_exe_CSV.png)
+   ![comando de ejecucion](SOFIS_CSV/Doc/img/command_execute_exe_CSV.png)
 
    ```
-   cd .\executable\
+   cd .\Executables\
    
-   .\SOFIS_CSV.exe
+   .\SOFIS_CSV_GUI.exe
    ```
 
   
@@ -71,13 +72,13 @@ As previously described, SOFIS come with two versions, for creating a .CSV file 
 
    To execute SOFIS. Open the terminal or command prompt and run the following command:
 
-   ![comando de ejecucion](SOFIS_DB/commands_to_execute/command_execute_bat_DB.png)
+   ![comando de ejecucion](SOFIS_DB/Doc/img/command_execute_bat_DB.png)
 
    .\SOFIS_DB.bat -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"
 
 2. Python script. 
 
-   ![comando de ejecucion](SOFIS_DB/commands_to_execute/command_execute_py_DB.png)
+   ![comando de ejecucion](SOFIS_DB/Doc/img/command_execute_py_DB.png)
 
     python SOFIS_DB.py -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"
 
@@ -86,11 +87,11 @@ As previously described, SOFIS come with two versions, for creating a .CSV file 
    For Windows users, at the File Explorer you can double-click on the "SOFIS_DB.exe" file to execute the program:
 
 
-   ![comando de ejecucion](SOFIS_DB/commands_to_execute/command_execute_exe_DB.png)
+   ![comando de ejecucion](SOFIS_DB/Doc/img/command_execute_exe_DB.png)
 
-      cd .\executable\
+      cd .\Executables\
 
-      .\SOFIS_DB.exe
+      .\SOFIS_DB_GUI.exe
 
 **NOTES**
 

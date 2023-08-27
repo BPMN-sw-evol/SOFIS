@@ -37,11 +37,11 @@ As previously described, SOFIS come with two versions, for creating a .CSV file 
 
 **SOFIS_CSV.** 
 
-1. Batch file. 
+1. Executable console file. 
 
    ![comando de ejecucion](SOFIS_CSV/Doc/img/command_execute_bat_CSV.png)
 
-    .\SOFIS_CSV.bat -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
+    .\SOFIS_CSV_CONSOLE.exe -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
 
 2. Python script. 
 
@@ -59,22 +59,21 @@ As previously described, SOFIS come with two versions, for creating a .CSV file 
    ![comando de ejecucion](SOFIS_CSV/Doc/img/command_execute_exe_CSV.png)
 
    ```
-   cd .\Executables\
+   cd .\SOFIS_CSV\Executables\
    
    .\SOFIS_CSV_GUI.exe
    ```
 
-  
 
 **SOFIS_DB.**
 
-1. Batch file 
+1. Executable console file.
 
    To execute SOFIS. Open the terminal or command prompt and run the following command:
 
    ![comando de ejecucion](SOFIS_DB/Doc/img/command_execute_bat_DB.png)
 
-   .\SOFIS_DB.bat -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"
+   .\SOFIS_DB_CONSOLE.exe -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"
 
 2. Python script. 
 
@@ -89,7 +88,7 @@ As previously described, SOFIS come with two versions, for creating a .CSV file 
 
    ![comando de ejecucion](SOFIS_DB/Doc/img/command_execute_exe_DB.png)
 
-      cd .\Executables\
+      cd .\SOFIS_DB\Executables\
 
       .\SOFIS_DB_GUI.exe
 
@@ -125,7 +124,7 @@ If you plan to use the PostgreSQL version (SOFIS_DB), follow the steps below:
 8. **Create the required table**: In the `SOFIS` database, execute the `SOFIS_Query.sql` script to create the required table. The script is available in the repository.
 
    ````sql
-   CREATE TABLE SOFIS_QUERY (
+   CREATE TABLE SOFIS (
       id_discussion SERIAL PRIMARY KEY,
       topic VARCHAR(25),
       title VARCHAR(255),

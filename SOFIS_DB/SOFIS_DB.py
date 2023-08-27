@@ -151,7 +151,7 @@ def parse_arguments():
             print("Error when trying HTTP request:", response.status_code)
             break
 
-    select_query = "SELECT id_discussion FROM SOFIS_QUERY"
+    select_query = "SELECT id_discussion FROM SOFIS"
     cursor.execute(select_query)
     existing_ids = set(row[0] for row in cursor.fetchall())
 
@@ -179,7 +179,7 @@ def parse_arguments():
             tags = ", ".join(question["tags"])
 
             if score >= 0:
-                insert_query = "INSERT INTO SOFIS_QUERY(id_discussion, title, link, score, answer_count, view_count, creation_date, tags) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+                insert_query = "INSERT INTO SOFIS(id_discussion, title, link, score, answer_count, view_count, creation_date, tags) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
                 cursor.execute(insert_query, (id_discussion, title, link, score, answer_count, view_count, creation_date, tags))
                 inserted_count += 1
                 existing_ids.add(id_discussion)

@@ -39,7 +39,7 @@ As previously described, SOFIS come with two versions, for creating a .CSV file 
 
 1. Executable console file. 
 
-   ![comando de ejecucion](SOFIS_CSV/Doc/img/command_execute_bat_CSV.png)
+   ![comando de ejecucion](SOFIS_CSV/Doc/img/command_execute_console_CSV.png)
 
     .\SOFIS_CSV_CONSOLE.exe -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
 
@@ -71,7 +71,7 @@ As previously described, SOFIS come with two versions, for creating a .CSV file 
 
    To execute SOFIS. Open the terminal or command prompt and run the following command:
 
-   ![comando de ejecucion](SOFIS_DB/Doc/img/command_execute_bat_DB.png)
+   ![comando de ejecucion](SOFIS_DB/Doc/img/command_execute_console_DB.png)
 
    .\SOFIS_DB_CONSOLE.exe -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"
 

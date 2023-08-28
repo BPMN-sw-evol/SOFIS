@@ -39,7 +39,7 @@ As previously described, SOFIS come with two versions, for creating a .CSV file 
 
 1. Executable console file. 
 
-   ![comando de ejecucion](SOFIS_CSV/Doc/img/command_execute_console_CSV.png)
+   ![comando de ejecucion](Doc/img/command_execute_console_CSV.png)
 
     .\SOFIS_CSV_CONSOLE.exe -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
 
@@ -47,7 +47,7 @@ As previously described, SOFIS come with two versions, for creating a .CSV file 
 
    Use the following command in the terminal or command prompt:
 
-   ![comando de ejecucion](SOFIS_CSV/Doc/img/command_execute_py_CSV.png)
+   ![comando de ejecucion](Doc/img/command_execute_py_CSV.png)
 
    python SOFIS_CSV.py -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
 
@@ -56,7 +56,7 @@ As previously described, SOFIS come with two versions, for creating a .CSV file 
    For Windows users, at the File Explorer you can double-click on the "SOFIS_CSV_GUI.exe" file to execute the program:
 
 
-   ![comando de ejecucion](SOFIS_CSV/Doc/img/command_execute_gui_CSV.png)
+   ![comando de ejecucion](Doc/img/command_execute_gui_CSV.png)
 
    ```
    cd .\SOFIS_CSV\Executables\
@@ -71,13 +71,13 @@ As previously described, SOFIS come with two versions, for creating a .CSV file 
 
    To execute SOFIS. Open the terminal or command prompt and run the following command:
 
-   ![comando de ejecucion](SOFIS_DB/Doc/img/command_execute_console_DB.png)
+   ![comando de ejecucion](Doc/img/command_execute_console_DB.png)
 
    .\SOFIS_DB_CONSOLE.exe -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"
 
 2. Python script. 
 
-   ![comando de ejecucion](SOFIS_DB/Doc/img/command_execute_py_DB.png)
+   ![comando de ejecucion](Doc/img/command_execute_py_DB.png)
 
     python SOFIS_DB.py -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"
 
@@ -86,7 +86,7 @@ As previously described, SOFIS come with two versions, for creating a .CSV file 
    For Windows users, at the File Explorer you can double-click on the "SOFIS_DB.exe" file to execute the program:
 
 
-   ![comando de ejecucion](SOFIS_DB/Doc/img/command_execute_gui_DB.png)
+   ![comando de ejecucion](Doc/img/command_execute_gui_DB.png)
 
       cd .\SOFIS_DB\Executables\
 

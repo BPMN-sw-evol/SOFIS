@@ -56,7 +56,7 @@ As previously described, SOFIS come with two versions, for creating a .CSV file 
    For Windows users, at the File Explorer you can double-click on the "SOFIS_CSV_GUI.exe" file to execute the program:
 
 
-   ![comando de ejecucion](Doc/img/command_execute_gui_CSV.png)
+   ![comando de ejecucion](Doc/img/command_execute_gui_CSV.jpg)
 
    ```
    cd .\SOFIS_CSV\Executables\

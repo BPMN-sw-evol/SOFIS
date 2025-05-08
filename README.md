@@ -78,7 +78,7 @@ En el folder **SOFIS_DB** se encuentran los ejecutables que guardan las discusio
 1. Comando de ejecucion en consola. 
 
 
-   ![comando de ejecucion](https://github.com/BPMN-sw-evol/SOFIS/blob/main/Doc/img/command_execute_console_CSV.png?raw=true) 
+   ![comando de ejecucion](https://github.com/BPMN-sw-evol/SOFIS/blob/main/doc/img/command_execute_console_CSV.png?raw=true) 
 
       ```
       Texto para que pueda copiar a su consola:  
@@ -88,7 +88,7 @@ En el folder **SOFIS_DB** se encuentran los ejecutables que guardan las discusio
 
 2. Script de Python.
    
-      ![comando de ejecucion](https://github.com/BPMN-sw-evol/SOFIS/blob/main/Doc/img/command_execute_py_CSV.png?raw=true)
+      ![comando de ejecucion](https://github.com/BPMN-sw-evol/SOFIS/blob/main/doc/img/command_execute_py_CSV.png?raw=true)
       
       ```
       Texto para que pueda copiar a su consola: 
@@ -99,13 +99,13 @@ En el folder **SOFIS_DB** se encuentran los ejecutables que guardan las discusio
 3. En Windows desde el explorador de archivos puede hacer doble clic en el archivo «SOFIS_CSV_GUI.exe» para ejecutar el programa:
 
    <p align="center">
-   <img src="https://github.com/BPMN-sw-evol/SOFIS/blob/main/Doc/img/command_execute_gui_CSV.JPG?raw=true" alt="Comando de ejecución" width="550"/>
+   <img src="https://github.com/BPMN-sw-evol/SOFIS/blob/main/doc/img/command_execute_gui_CSV.JPG?raw=true" alt="Comando de ejecución" width="550"/>
    </p>
 
     >>Como resultado le aparecerá esta interfaz gráfica: 
      
    <p align="center">
-   <img src="https://github.com/BPMN-sw-evol/SOFIS/blob/main/Doc/img/command_execute_gui_CSV_a.JPG?raw=true" alt="Comando de ejecución" width="500"/>
+   <img src="https://github.com/BPMN-sw-evol/SOFIS/blob/main/doc/img/command_execute_gui_CSV_a.JPG?raw=true" alt="Comando de ejecución" width="500"/>
    </p>
  
      >>En la ventana introduce los parámetros requeridos y le da clic en el botón inferior de "Buscar y Guardar". 
@@ -117,7 +117,7 @@ En el folder **SOFIS_DB** se encuentran los ejecutables que guardan las discusio
 
    Para ejecutar SOFIS. Abra una ventana de terminal o de símbolo del sistema y ejecute el siguiente comando:
 
-   ![comando de ejecucion](https://github.com/BPMN-sw-evol/SOFIS/blob/main/Doc/img/command_execute_console_DB.png?raw=true)
+   ![comando de ejecucion](https://github.com/BPMN-sw-evol/SOFIS/blob/main/doc/img/command_execute_console_DB.png?raw=true)
 
       ```
      Texto para que pueda copiar a su consola:  
@@ -127,7 +127,7 @@ En el folder **SOFIS_DB** se encuentran los ejecutables que guardan las discusio
 
 2. Script en Python. 
 
-   ![comando de ejecucion](https://github.com/BPMN-sw-evol/SOFIS/blob/main/Doc/img/command_execute_py_DB.png?raw=true)
+   ![comando de ejecucion](https://github.com/BPMN-sw-evol/SOFIS/blob/main/doc/img/command_execute_py_DB.png?raw=true)
 
      ```
      Texto para que pueda copiar a su consola:  
@@ -139,12 +139,12 @@ En el folder **SOFIS_DB** se encuentran los ejecutables que guardan las discusio
 3. En Windows desde el explorador de archivos puede hacer doble clic en el archivo «SOFIS_DB.exe» para ejecutar el programa:
 
    <p align="center">
-   <img src="https://github.com/BPMN-sw-evol/SOFIS/blob/main/Doc/img/command_execute_gui_DB.png?raw=true" alt="Comando de ejecución" width="550"/>
+   <img src="https://github.com/BPMN-sw-evol/SOFIS/blob/main/doc/img/command_execute_gui_DB.png?raw=true" alt="Comando de ejecución" width="550"/>
 
    >>Como resultado le aparecerá esta interfaz gráfica: 
      
    <p align="center">
-   <img src="https://github.com/BPMN-sw-evol/SOFIS/blob/main/Doc/img/command_execute_gui_DB_a.PNG?raw=true" alt="Comando de ejecución" width="500"/>
+   <img src="https://github.com/BPMN-sw-evol/SOFIS/blob/main/doc/img/command_execute_gui_DB_a.PNG?raw=true" alt="Comando de ejecución" width="500"/>
    </p>
  
      >>En la ventana introduce los parámetros requeridos y le da clic en el botón inferior de "Search and Save". 

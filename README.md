@@ -1,127 +1,186 @@
 #  Stack OverFlow Issues Searcher - SOFIS
 
-SOFIS fetches discussions from StackOverflow - SO, on a given topic using the StackOverflow API, it consults **issues that have been created as of 14/01/2014**, and stores the results in a PostgreSQL database or local CSV file.
+Este es un software que realiza la tarea de Buscar y extraer **todas** las discusiones sobre algún tema, de la plataforma Stack Overflow
 
-The retrieved discussions with negative votes (less than zero) are not listed. It also performs validation to avoid duplicates in the CSV file or the database table.
+SOFIS son las iniciales provenientes de su nombre en inglés: **S**tack **O**ver**F**low **I**ssues **S**earcher. 
 
 ## Index
 
-- [Description](#description)
-- [SO API requirement](#so-api-requirement)
-- [Usage](#usage)
-- [Using the source code](#using-the-source-code)
-- [Development Summary](#development-summary)
+- [Contexto](#contexto)
+- [Contribución](#contribución)
+- [Funcionalidad General](#funcionalidad-general)
+- [Uso de SOFIS](#uso-de-sofis)
+  - [Formas de ejecución de SOFIS_CSV](#formas-de-ejecución-de-sofis_csv)
+  - [Formas de ejecución de SOFIS_DB](#formas-de-ejecución-de-sofis_db)
+- [Requisitos previos](#requisitos-previos)
+   - [API de Stack Overflow](#api-de-stack-overflow)
+   - [PostgreSQL](#postgresql)
+   - [Módulos de Python](#modulos-de-python)
+- [Limitations en la API de Stack Overflow](#api-usage-limitations)
+- [Resumen](#resumen)
 - [API Usage Limitations](#api-usage-limitations)
 - [Future Improvements](#future-improvements)
 
+## Contexto
+Stack Overflow es una plataforma digital colaborativa de preguntas y respuestas dirigida principalmente a programadores y profesionales de la tecnología. Fundada en 2008, funciona como un espacio donde usuarios pueden plantear dudas técnicas relacionadas con el desarrollo de software, algoritmos, depuración de código y herramientas tecnológicas, recibiendo respuestas de una comunidad global de expertos.
 
-## Description
+La plataforma se basa en un sistema de votación que permite evaluar la calidad de las contribuciones, fomentando así contenido preciso y útil. Además, integra mecanismos de moderación y reputación para garantizar la confiabilidad de la información. Stack Overflow forma parte del ecosistema Stack Exchange, que abarca diversos temas técnicos y no técnicos, pero destaca por ser el más utilizado en el ámbito de la programación. Su modelo ha sido ampliamente reconocido como un recurso esencial para el aprendizaje y la resolución de problemas en la industria tecnológica. utilizando la API de StackOverflow, consulta las cuestiones que se han creado a partir del 14/01/2014, y almacena los resultados en una base de datos PostgreSQL o en un archivo CSV local.
 
-**SOFIS** allows you to retrieve StackOverflow issues based on a specified search topic as of 01/14/2014. There are two versions of SOFIS available:
+El propósito de la herramienta es entonces, aprovechar el amplio contenido que guarda la plataforma para crear conocimiento sobre el comportamiento al rededor de determinado tema. Para ésto, el software SOFIS consume  la api que provee Stack Overflow, incorporando el manejo requerido para lograr obtenerlas **todas**. 
 
-- **SOFIS_CSV**: This version generates a CSV file with the obtained results. It offers a swift and portable solution, enabling you to retrieve and store StackOverflow issues in a CSV format, sidestepping the intricacies of setting up a database; this option is ideal for straightforward analysis and seamless collaboration. 
-- **SOFIS_DB**: This version uses a PostgreSQL database to store the obtained results. It is built on PostgreSQL, provides greater power to handle substantial data volumes and in-depth analysis.
+## Contribución 
 
-## SO API requirement
+La principal contribución de este software es la entrega al usuario de **todas** las discusiones en las que se menciona el tema de interés. 
 
-To use the StackOverflow API and make requests, you will need an API key. Follow the steps below to obtain the necessary credentials:
+Lo anterior tiende un puente entre la comunidad científica relacionada con la tecnología y la programación y la amplia información guardada en la plataforma, de forma que se puedan realizar análisis de comportamiento, tendencias, usos, etc. 
 
-- Register an account at [Stack Apps](https://stackapps.com/users/login).
-- Register your application to obtain the API credentials at [Stack Apps - Register an Application](https://stackapps.com/apps/oauth/register). Here you will obtain a client ID and a secret key for OAuth authentication on Stack Overflow. You will need to provide this key when using SOFIS.  
+Específicamente el software logra satisfacer los siguientes requerimientos: 
+1. Extraer **todas** las conversaciones, 
+2. **Excluir** discusiones **mal calificadas**, 
+3. **Evitar** resultados **repetidos**. 
 
-If you need to consult your SO API data, go to [Your Apps](https://stackapps.com/apps/oauth) on [stackapps](stackapps.com). 
+El primero de los requerimientos se logra con un algoritmo de control de tiempos y peticiones hasta conseguir todas las discusiones. Lo anterior es necesario debido a que la Api con la cual se preguntan discusiones a la plataforma está configurada con restricciones de seguridad y limitaciones de consumo para evitar que la plataforma se sobrecargue atendiendo peticiones.  
 
-## Usage
+El algoritmo creado, basado en las restricciones, realiza las consultas permitidas durante los segundos y días establecidos por la API, espera el siguiente rango de segundos o de días, según el límite alcanzado y continúa así hasta que logra extraer **todas** las discusiones con el tema especificado. 
 
-As previously described, SOFIS come with two versions, for creating a .CSV file o for adding records into a database table. Additionally, the software has, for each version, a way to be executed. Next are explained the different ways for each version. 
+Adicionalmente, el software realiza un control de calidad de las discusiones recuperadas. Para ello se basa en los votos de las discusiones y aquellas con votos negativos (menos de cero) son excluidas del resultado. De igual forma, realiza una validación para evitar duplicados en los resultados.   
 
-**SOFIS_CSV.** 
+## Funcionalidad General
 
-1. Executable console file. 
+SOFIS es un software para utilizar en la línea de comandos de cualquier sistema operativo. Los resultados generados, es decir, las discusiones recuperadas de Stack Overflow, pueden ser obtenidas en un archivo .CSV o en una base de datos en el motor PostgreSQL. 
 
-   ![comando de ejecucion](doc/img/command_execute_console_CSV.png)
+Para obtener los resultados de una u otra forma, se utiliza la herramienta así: 
 
-    .\SOFIS_CSV_CONSOLE.exe -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
+- **SOFIS_CSV**: Esta versión genera un archivo CSV con los resultados obtenidos. Ofrece una solución rápida y portable, que le permite recuperar y almacenar las discusiones de StackOverflow en formato CSV, evitando las complejidades de la creación de una base de datos; esta opción es ideal para el análisis directo y la colaboración sin problemas. 
 
-2. Python script. 
+- **SOFIS_DB**: Esta versión utiliza una base de datos PostgreSQL para almacenar los resultados obtenidos. Esta versión proporciona mayor potencia para manejar volúmenes de datos considerables y análisis en profundidad.
 
-   Use the following command in the terminal or command prompt:
+## Uso de SOFIS
 
-   ![comando de ejecucion](doc/img/command_execute_py_CSV.png)
+Como se ha descrito anteriormente, SOFIS ofrece dos versiones, una que crea un archivo .CSV y una que genera registros en una tabla de base de datos. Para cada versión el software tiene una forma de ser ejecutado. A continuación, explicamos la estructura de archivos del software y enseguida cada una de las formas en que SOFIS puede ser ejecutado.  
 
-   python SOFIS_CSV.py -k "YOUR_API_KEY" -i "search_topic" -u "12-06-2023" -d "\desired\path"
+### Ubicación de los artefactos de software
 
+Este repositorio, que puede descargar o clonar en una carpeta local de su computador en cualquier sistema operativo, tiene la siguiente estructura (vista del explorador de archivos de Windows): 
+
+   <p align="center">
+   <img src="https://github.com/BPMN-sw-evol/SOFIS/blob/main/doc/img/SOFIS-RepositoryStructure.PNG?raw=true" alt="SOFIS File Repository Structure" width="550"/>
+   </p>
+
+En el folder **doc** se encuentran las imágenes utilizadas en este documento y videos de utilización del software. 
+
+En el folder **SOFIS_CSV** se encuentran los ejecutables que guardan las discusiones en un archivo .CSV 
+
+En el folder **SOFIS_DB** se encuentran los ejecutables que guardan las discusiones en una base de datos de PostgreSQL. 
+
+### Formas de ejecución de **SOFIS_CSV.** 
+
+1. Comando de ejecucion en consola. 
+
+
+   ![comando de ejecucion](https://github.com/BPMN-sw-evol/SOFIS/blob/main/Doc/img/command_execute_console_CSV.png?raw=true) 
+
+      ```
+      Texto para que pueda copiar a su consola:  
+      
+      \SOFIS_CSV_CONSOLA.exe -k «TU_KEY_API» -i «buscar_tema» -u «12-06-2023» -d «\desired\path»</small>  
+      ```
+
+2. Script de Python.
    
+      ![comando de ejecucion](https://github.com/BPMN-sw-evol/SOFIS/blob/main/Doc/img/command_execute_py_CSV.png?raw=true)
+      
+      ```
+      Texto para que pueda copiar a su consola: 
+      
+      <small>python SOFIS_CSV.py -k «YOUR_API_KEY» -i «search_topic» -u «12-06-2023» -d «\desired\path»</small>
+      ```
 
-   For Windows users, at the File Explorer you can double-click on the "SOFIS_CSV_GUI.exe" file to execute the program:
+3. En Windows desde el explorador de archivos puede hacer doble clic en el archivo «SOFIS_CSV_GUI.exe» para ejecutar el programa:
 
+   <p align="center">
+   <img src="https://github.com/BPMN-sw-evol/SOFIS/blob/main/Doc/img/command_execute_gui_CSV.JPG?raw=true" alt="Comando de ejecución" width="550"/>
+   </p>
 
-   ![comando de ejecucion](doc/img/command_execute_gui_CSV.JPG)
-
-   ```
-   cd .\SOFIS_CSV\Executables\
-   
-   .\SOFIS_CSV_GUI.exe
-   ```
-
-
-**SOFIS_DB.**
-
-1. Executable console file.
-
-   To execute SOFIS. Open the terminal or command prompt and run the following command:
-
-   ![comando de ejecucion](doc/img/command_execute_console_DB.png)
-
-   .\SOFIS_DB_CONSOLE.exe -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"
-
-2. Python script. 
-
-   ![comando de ejecucion](doc/img/command_execute_py_DB.png)
-
-    python SOFIS_DB.py -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"
-
-   
-
-   For Windows users, at the File Explorer you can double-click on the "SOFIS_DB.exe" file to execute the program:
+    >>Como resultado le aparecerá esta interfaz gráfica: 
+     
+   <p align="center">
+   <img src="https://github.com/BPMN-sw-evol/SOFIS/blob/main/Doc/img/command_execute_gui_CSV_a.JPG?raw=true" alt="Comando de ejecución" width="500"/>
+   </p>
+ 
+     >>En la ventana introduce los parámetros requeridos y le da clic en el botón inferior de "Buscar y Guardar". 
 
 
-   ![comando de ejecucion](doc/img/command_execute_gui_DB.png)
+### Formas de ejecución de **SOFIS_DB.**
 
-      cd .\SOFIS_DB\Executables\
+1. Comando de ejecución en consola.
 
-      .\SOFIS_DB_GUI.exe
+   Para ejecutar SOFIS. Abra una ventana de terminal o de símbolo del sistema y ejecute el siguiente comando:
 
-**NOTES**
+   ![comando de ejecucion](https://github.com/BPMN-sw-evol/SOFIS/blob/main/Doc/img/command_execute_console_DB.png?raw=true)
 
-- When you execute the ".py" or ".bat" files to store issues in a CSV format, a corresponding "SQ.pars.<"issue">.txt" file will be created. This file will store the params of the last query performed for a specific issue.
+      ```
+     Texto para que pueda copiar a su consola:  
+      
+     <small>.\SOFIS_DB_CONSOLE.exe -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"</small>     
+     ```
 
-- To verify the data, execute the following SQL statement in pgAdmin 4:
+2. Script en Python. 
+
+   ![comando de ejecucion](https://github.com/BPMN-sw-evol/SOFIS/blob/main/Doc/img/command_execute_py_DB.png?raw=true)
+
+     ```
+     Texto para que pueda copiar a su consola:  
+
+    
+    >><small>python SOFIS_DB.py -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"</small>  
+     ```
+
+3. En Windows desde el explorador de archivos puede hacer doble clic en el archivo «SOFIS_DB.exe» para ejecutar el programa:
+
+   <p align="center">
+   <img src="https://github.com/BPMN-sw-evol/SOFIS/blob/main/Doc/img/command_execute_gui_DB.png?raw=true" alt="Comando de ejecución" width="550"/>
+
+   >>Como resultado le aparecerá esta interfaz gráfica: 
+     
+   <p align="center">
+   <img src="https://github.com/BPMN-sw-evol/SOFIS/blob/main/Doc/img/command_execute_gui_DB_a.PNG?raw=true" alt="Comando de ejecución" width="500"/>
+   </p>
+ 
+     >>En la ventana introduce los parámetros requeridos y le da clic en el botón inferior de "Search and Save". 
+
+**NOTAS**
+
+- Cuando ejecute los archivos «.py» o «.bat» para almacenar discusiones en formato CSV, se creará el correspondiente archivo «SQ.pars.<»incidencia«>.txt». Este archivo almacenará los parámetros de la última consulta realizada para un tema concreto.
+
+- Para consultar la información guardada en la base de datos, ejecute la siguiente sentencia SQL en pgAdmin 4:
 
   ```
     SELECT \* FROM SOFIS_QUERY WHERE title ILIKE '%search_topic%';
   ```
 
+## Requisitos previos. 
 
-## Using the source code
+Debido a que este software consume y utiliza servicios que proveen terceros, es necesario cumplir algunos requisitos para su utilización. A continuación, se detallan cada uno de ellos: 
 
-Before using the SOFIS source code, make sure you meet the following requisites:
+### API de Stack Overflow 
 
-1. **Code editor**: If you want to modify to SOFIS we recommend using Visual Studio Code (VS Code). You can download it from the [official website](https://code.visualstudio.com/download).
-2. **GIT**: Install the version control system GIT from the [official website](https://git-scm.com/downloads).
-3. **Clone the repository**: Use the following command to clone the repository: `git clone https://github.com/BPMN-sw-evol/SOFIS.git`.
-4. **Python**: Install Python from the [official website](https://www.python.org/downloads/) or install the Python extension in VS Code.
-5. **Required Python modules**:
-   - requests (for making HTTP requests): `pip install requests`
-   - psycopg2-binary (only for SOFIS_DB version): `pip install psycopg2-binary`
+Para utilizar la API de StackOverflow y realizar solicitudes es necesario contar con una "llave" de la API. A continuación, indicamos los pasos a seguir para obtener las credenciales necesarias:
 
-If you plan to use the PostgreSQL version (SOFIS_DB), follow the steps below:
+- Registrar una cuenta en [Stack Apps](https://stackapps.com/users/login).
+- Registrar su aplicación para obtener las credenciales de la API en [Stack Apps - Registrar una aplicación](https://stackapps.com/apps/oauth/register). Aquí obtendrás un ID de cliente y una clave secreta para la autenticación _OAuth_ en Stack Overflow. Deberá proporcionar esta clave cuando utilice **SOFIS**.  
 
-6. **Install PostgreSQL**: Download and install the stable or latest version from the [official PostgreSQL website](https://www.postgresql.org/download/).
+Si necesita consultar los datos de su API de Stack Overflow, vaya a [Your Apps](https://stackapps.com/apps/oauth) en [stackapps](stackapps.com). 
 
-7. **Using pgAdmin 4** (included with PostgreSQL), create a database called `SOFIS`.
+### PostgreSQL
 
-8. **Create the required table**: In the `SOFIS` database, execute the `SOFIS_Query.sql` script to create the required table. The script is available in the repository.
+Si va a utilizar la versión de SOFIS que recupera las discusiones y las guarda en una base de datos((SOFIS_DB)), debe saber que el software utiliza PostgreSQL y que debe seguir los siguientes pasos para poder utilizar esta version de SOFIS: 
+
+- **Instalar PostgreSQL**: Descargue e instale la versión estable o la última versión desde el sitio oficial de descargas de PostgreSQL [sitio oficial de PostgreSQL](https://www.postgresql.org/download/).
+
+- **Crear la base de datos** Uitilice pgAdmin 4 (viene incluido con PostgreSQL), y cree una base de datos llamada `SOFIS`.
+
+- **Crear la tabla**: En la base de datos `SOFIS` database, ejecute el script de creación de la tabla SOFIS, donde serán guardadas las dicusiones recuperadas de Stack Overflow. El script se encuentra disponible en el repositorio: [SOFIS_Query.sql](https://github.com/BPMN-sw-evol/SOFIS/blob/main/SOFIS_DB/SOFIS_Query.sql) y este es su contenido: 
 
    ````sql
    CREATE TABLE SOFIS (
@@ -137,35 +196,54 @@ If you plan to use the PostgreSQL version (SOFIS_DB), follow the steps below:
    );
    ````
 
-## Development Summary
+### Módulos de Python
 
-SOFIS utilizes the StackOverflow API to retrieve discussions related to a specified search title. It stores these discussions in a local database using PostgreSQL or CSV file. SOFIS checks if each discussion already exists in the database or CSV file and, if not, and it has a score greater than or equal to zero, it inserts it. Additionally,  provides information on the number of questions found, inserted, skipped due to negative votes, and skipped due to already existing in the database or CSV file.
+- **Python**: Instale Python desde su sitio oficial [Python](https://www.python.org/downloads/) o instale la extensión de Python in VS Code.
 
-The database or CSV file stores the following attributes for each discussion:
+- **Módulos de Python requeridos**:
+   - requests (para realizar solicitudes HTTP): `pip install requests`
+   - psycopg2-binary (sólamente para la versión SOFIS_DB): `pip install psycopg2-binary`
 
-| Attribute     | Description                          |
-| ------------- | ------------------------------------ |
-| id_discussion | Unique identifier of the discussion  |
-| title         | Title of the discussion              |
-| link          | Link to the StackOverflow website    |
-| score         | Score of the discussion              |
-| answer_count  | Number of answers for the discussion |
-| view_count    | Number of views for the discussion   |
-| creation_date | Creation date of the discussion      |
-| tags          | Tags related to the discussion       |
+## Uso del código fuente
 
-The development focuses on searching for discussions within StackOverflow whose titles contain the specific platform requested as a parameter. This approach ensures that the obtained data is more contextually relevant to the target platform.
+Si planea utilizar el código fuente de SOFIS tenga en cuenta: 
 
-## API Usage Limitations
+- **Editor de código**: Le recomendamos usar Visual Studio Code (VS Code). Puede descargarlo de [sitio oficial de VS](https://code.visualstudio.com/download).
 
-The StackOverflow API has the following limitations:
+- **GIT**: Instale el sistema de control de versiones GIT de su sitio oficial [sitio oficial de GIT](https://git-scm.com/downloads).
 
-1. Maximum 30 requests per second.
-2. Maximum 10,000 requests per day.
-3. If the daily limit is exceeded, an HTTP 429 error will be returned.
-4. The daily request limit is renewed from the next midnight.
+- **Clone el repositorio**: Esto puede hacerlo con el comando: `git clone https://github.com/BPMN-sw-evol/SOFIS.git`.
 
-## Future Improvements
+## Resumen
 
-1. Implement a cloud-based database for improved scalability and accessibility.
-2. Add functionality to update records individually or specific records based on user requirements.
+SOFIS recupera de la plataforma especializada en temas tecnológicos y de desarrollo Stack Overflow, las discusiones relacionadas con un tema de búsqueda específico, que se hayan presentado a partir de determinada fecha. Almacena estas discusiones en un archivo CSV o en una base de datos local utilizando PostgreSQL. 
+
+SOFIS comprueba si cada discusión ya existe en el archivo CSV o en la base de datos, si no es así, y tiene una puntuación mayor o igual a cero, la agrega. Además, proporciona información sobre el número de preguntas encontradas, insertadas, omitidas debido a votos negativos y omitidas debido a que ya existen en el archivo CSV o en la base de datos .
+
+En el archivo CSV o en la base de datos SOFIS almacena los siguientes atributos de cada discusión:
+
+| Atributo      | Descripción                                    |
+| ------------- | ---------------------------------------------- |
+| id_discussion | Identificador único de la discusión            |
+| title         | Título de la discusión                         |
+| link          | Enlace a la discusión en StackOverflow website |
+| score         | Puntaje de la discusión                        |
+| answer_count  | Número de respuestas para la discusión         |
+| view_count    | Number of vistas de la discusión               |
+| creation_date | Fecha de creación de la discusión              |
+| tags          | Etiquetas relacionadas con la discusión        |
+
+Este software es una herramienta que se centra en la búsqueda de discusiones en StackOverflow cuyos títulos contengan una palabra específica enviada por parámetro, a partir de determinada fecha. Este enfoque garantiza que los datos obtenidos sean más relevantes contextualmente según el interés de quien realiza la búsqueda. Nostros lo usamos para encontrar las comunidades alrrededor de diferentes plataformas para gestión de procesos (BPMs de sus iniciales en inglés Business Process Management Systems) y poder comparar sus tamaños y nivel de actividad. 
+
+## Limitaciones de la API de Stack Overflow
+
+1. Máximo 30 solicitudes  per segundo.
+2. Máximo 10,000 solicitudes por día.  
+3. Si el límite diario es excedido, la api retorna un error HTTP 429.
+4. El límite diario se reinicia desde la medianoche. 
+
+## Mejoras futuras
+
+1. Implementar el uso de una base de datos en la nube, para mejorar la accesibilidad a los resultados y la escabilidad de su uso en temas con muchos más resultados que los que nosotros buscamos. 
+
+2. Agregar funcionalidad para actualizar registros individualmente según las necesidades del usuario de la herramienta. 

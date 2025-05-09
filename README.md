@@ -15,11 +15,11 @@ SOFIS son las iniciales provenientes de su nombre en inglés: **S**tack **O**ver
 - [Requisitos previos](#requisitos-previos)
    - [API de Stack Overflow](#api-de-stack-overflow)
    - [PostgreSQL](#postgresql)
-   - [Módulos de Python](#modulos-de-python)
-- [Limitations en la API de Stack Overflow](#api-usage-limitations)
+   - [Módulos de Python](#módulos-de-python)
+- [Uso del código fuente](#uso-del-código-fuente)
+- [Limitaciones de la API de Stack Overflow](#limitaciones-de-la-api-de-stack-overflow)
 - [Resumen](#resumen)
-- [API Usage Limitations](#api-usage-limitations)
-- [Future Improvements](#future-improvements)
+- [Mejoras Futuras](#mejoras-futuras)
 
 ## Contexto
 Stack Overflow es una plataforma digital colaborativa de preguntas y respuestas dirigida principalmente a programadores y profesionales de la tecnología. Fundada en 2008, funciona como un espacio donde usuarios pueden plantear dudas técnicas relacionadas con el desarrollo de software, algoritmos, depuración de código y herramientas tecnológicas, recibiendo respuestas de una comunidad global de expertos.
@@ -76,95 +76,60 @@ En el folder **SOFIS_DB** se encuentran los ejecutables que guardan las discusio
 ### Formas de ejecución de **SOFIS_CSV.** 
 
 1. Comando de ejecucion en consola. 
-
-
    ![comando de ejecucion](https://github.com/BPMN-sw-evol/SOFIS/blob/main/doc/img/command_execute_console_CSV.png?raw=true) 
-
-      ```
       Texto para que pueda copiar a su consola:  
-      
-      \SOFIS_CSV_CONSOLA.exe -k «TU_KEY_API» -i «buscar_tema» -u «12-06-2023» -d «\desired\path»</small>  
       ```
-
+      .\SOFIS_CSV_CONSOLA.exe -k «TU_KEY_API» -i «buscar_tema» -u «12-06-2023» -d «\desired\path»</small>  
+      ```
 2. Script de Python.
-   
       ![comando de ejecucion](https://github.com/BPMN-sw-evol/SOFIS/blob/main/doc/img/command_execute_py_CSV.png?raw=true)
-      
-      ```
       Texto para que pueda copiar a su consola: 
-      
-      <small>python SOFIS_CSV.py -k «YOUR_API_KEY» -i «search_topic» -u «12-06-2023» -d «\desired\path»</small>
       ```
-
+      python SOFIS_CSV.py -k «YOUR_API_KEY» -i «search_topic» -u «12-06-2023» -d «\desired\path»
+      ```
 3. En Windows desde el explorador de archivos puede hacer doble clic en el archivo «SOFIS_CSV_GUI.exe» para ejecutar el programa:
-
    <p align="center">
    <img src="https://github.com/BPMN-sw-evol/SOFIS/blob/main/doc/img/command_execute_gui_CSV.JPG?raw=true" alt="Comando de ejecución" width="550"/>
    </p>
-
-    >>Como resultado le aparecerá esta interfaz gráfica: 
-     
+    Como resultado le aparecerá esta interfaz gráfica: 
    <p align="center">
    <img src="https://github.com/BPMN-sw-evol/SOFIS/blob/main/doc/img/command_execute_gui_CSV_a.JPG?raw=true" alt="Comando de ejecución" width="500"/>
    </p>
- 
-     >>En la ventana introduce los parámetros requeridos y le da clic en el botón inferior de "Buscar y Guardar". 
-
-
+    En la ventana introduce los parámetros requeridos y le da clic en el botón inferior de "Buscar y Guardar". 
 ### Formas de ejecución de **SOFIS_DB.**
 
 1. Comando de ejecución en consola.
-
    Para ejecutar SOFIS. Abra una ventana de terminal o de símbolo del sistema y ejecute el siguiente comando:
-
    ![comando de ejecucion](https://github.com/BPMN-sw-evol/SOFIS/blob/main/doc/img/command_execute_console_DB.png?raw=true)
-
-      ```
-     Texto para que pueda copiar a su consola:  
-      
-     <small>.\SOFIS_DB_CONSOLE.exe -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"</small>     
-     ```
-
+   Texto para que pueda copiar a su consola:  
+   ```
+   .\SOFIS_DB_CONSOLE.exe -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"  
+   ```
 2. Script en Python. 
-
    ![comando de ejecucion](https://github.com/BPMN-sw-evol/SOFIS/blob/main/doc/img/command_execute_py_DB.png?raw=true)
-
-     ```
-     Texto para que pueda copiar a su consola:  
-
-    
-    >><small>python SOFIS_DB.py -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"</small>  
-     ```
-
+   Texto para que pueda copiar a su consola:  
+   ```
+   python SOFIS_DB.py -k "YOUR_API_KEY" -i "search_topic" -d "SOFIS" -u "postgres" -p "1234" -f "12-06-2023"  
+   ```
 3. En Windows desde el explorador de archivos puede hacer doble clic en el archivo «SOFIS_DB.exe» para ejecutar el programa:
-
    <p align="center">
    <img src="https://github.com/BPMN-sw-evol/SOFIS/blob/main/doc/img/command_execute_gui_DB.png?raw=true" alt="Comando de ejecución" width="550"/>
-
-   >>Como resultado le aparecerá esta interfaz gráfica: 
+   Como resultado le aparecerá esta interfaz gráfica: 
      
    <p align="center">
    <img src="https://github.com/BPMN-sw-evol/SOFIS/blob/main/doc/img/command_execute_gui_DB_a.PNG?raw=true" alt="Comando de ejecución" width="500"/>
    </p>
- 
-     >>En la ventana introduce los parámetros requeridos y le da clic en el botón inferior de "Search and Save". 
-
+     En la ventana introduce los parámetros requeridos y le da clic en el botón inferior de "Search and Save". 
 **NOTAS**
-
 - Cuando ejecute los archivos «.py» o «.bat» para almacenar discusiones en formato CSV, se creará el archivo «SQ.pars.<»search_topic«>.txt». Este archivo almacena los parámetros de la última consulta realizada para el tema de búsqueda utilizado.
-
 - Cuando ejecute la versión que guarda las discusiones en una base de datos, para consultar la información puede usar la siguiente sentencia SQL en pgAdmin 4:
-
   ```
     SELECT \* FROM SOFIS_QUERY WHERE title ILIKE '%search_topic%';
   ```
-
 ## Requisitos previos. 
-
 Debido a que este software consume y utiliza servicios que proveen terceros, es necesario cumplir algunos requisitos para su utilización. A continuación, se detallan cada uno de ellos: 
 
 ### API de Stack Overflow 
-
 Para utilizar la API de StackOverflow y realizar solicitudes es necesario contar con una "llave" de la API. A continuación, indicamos los pasos a seguir para obtener las credenciales necesarias:
 
 - Registrar una cuenta en [Stack Apps](https://stackapps.com/users/login).
@@ -201,18 +166,33 @@ Si va a utilizar la versión de SOFIS que recupera las discusiones y las guarda 
 - **Python**: Instale Python desde su sitio oficial [Python](https://www.python.org/downloads/) o instale la extensión de Python in VS Code.
 
 - **Módulos de Python requeridos**:
-   - requests (para realizar solicitudes HTTP): `pip install requests`
-   - psycopg2-binary (sólamente para la versión SOFIS_DB): `pip install psycopg2-binary`
-
+   - requests (para realizar solicitudes HTTP):
+     ```
+     pip install requests
+     ```
+   - psycopg2-binary (sólamente para la versión SOFIS_DB):
+     ```
+     pip install psycopg2-binary
+     ```
 ## Uso del código fuente
 
 Si planea utilizar el código fuente de SOFIS tenga en cuenta: 
 
-- **Editor de código**: Le recomendamos usar Visual Studio Code (VS Code). Puede descargarlo de [sitio oficial de VS](https://code.visualstudio.com/download).
+- **Editor de código**: Le recomendamos usar Visual Studio Code (VS Code). Puede descargarlo de [sitio oficial de VS Code](https://code.visualstudio.com/download).
 
 - **GIT**: Instale el sistema de control de versiones GIT de su sitio oficial [sitio oficial de GIT](https://git-scm.com/downloads).
 
-- **Clone el repositorio**: Esto puede hacerlo con el comando: `git clone https://github.com/BPMN-sw-evol/SOFIS.git`.
+- **Clone el repositorio**: Esto puede hacerlo con el comando:
+```
+git clone https://github.com/BPMN-sw-evol/SOFIS.git.
+```
+
+## Limitaciones de la API de Stack Overflow
+
+1. Máximo 30 solicitudes  per segundo.
+2. Máximo 10,000 solicitudes por día.  
+3. Si el límite diario es excedido, la api retorna un error HTTP 429.
+4. El límite diario se reinicia desde la medianoche. 
 
 ## Resumen
 
@@ -234,13 +214,6 @@ En el archivo CSV o en la base de datos SOFIS almacena los siguientes atributos 
 | tags          | Etiquetas relacionadas con la discusión        |
 
 Este software es una herramienta que se centra en la búsqueda de discusiones en StackOverflow cuyos títulos contengan una palabra específica enviada por parámetro, a partir de determinada fecha. Este enfoque garantiza que los datos obtenidos sean más relevantes contextualmente según el interés de quien realiza la búsqueda. Nostros lo usamos para encontrar las comunidades alrrededor de diferentes plataformas para gestión de procesos (BPMs de sus iniciales en inglés Business Process Management Systems) y poder comparar sus tamaños y nivel de actividad. 
-
-## Limitaciones de la API de Stack Overflow
-
-1. Máximo 30 solicitudes  per segundo.
-2. Máximo 10,000 solicitudes por día.  
-3. Si el límite diario es excedido, la api retorna un error HTTP 429.
-4. El límite diario se reinicia desde la medianoche. 
 
 ## Mejoras futuras
 

@@ -151,9 +151,9 @@ En el folder **SOFIS_DB** se encuentran los ejecutables que guardan las discusio
 
 **NOTAS**
 
-- Cuando ejecute los archivos «.py» o «.bat» para almacenar discusiones en formato CSV, se creará el correspondiente archivo «SQ.pars.<»incidencia«>.txt». Este archivo almacenará los parámetros de la última consulta realizada para un tema concreto.
+- Cuando ejecute los archivos «.py» o «.bat» para almacenar discusiones en formato CSV, se creará el archivo «SQ.pars.<»search_topic«>.txt». Este archivo almacena los parámetros de la última consulta realizada para el tema de búsqueda utilizado.
 
-- Para consultar la información guardada en la base de datos, ejecute la siguiente sentencia SQL en pgAdmin 4:
+- Cuando ejecute la versión que guarda las discusiones en una base de datos, para consultar la información puede usar la siguiente sentencia SQL en pgAdmin 4:
 
   ```
     SELECT \* FROM SOFIS_QUERY WHERE title ILIKE '%search_topic%';
